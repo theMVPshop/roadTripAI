@@ -29,13 +29,14 @@ const PlacesAutocomplete = ({ google }) => {
     <div>
       <input
         type="text"
+        className="prediction-input"
         placeholder="Enter a location"
         value={searchTerm}
         onChange={handleInputChange}
       />
-      <ul>
+      <ul className="prediction-list">
         {predictions.map((prediction) => (
-          <li key={prediction.place_id}>{prediction.description}</li>
+          <li className="prediction" key={prediction.place_id}>{prediction.description}</li>
         ))}
       </ul>
     </div>
