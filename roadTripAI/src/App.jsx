@@ -7,7 +7,6 @@ function App() {
     <main className="App">
       <h1>Road Trip AI</h1>
       <PlacesAutocomplete />
-    </main>
   );
 }
 
