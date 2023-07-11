@@ -7,7 +7,7 @@ function App() {
     <>
     <MenuBar />
      <h1>Road Trip AI</h1>
-     <h2>bottom text</h2>
+     <h2>Bottom Text</h2>
     </>
   )
 }
