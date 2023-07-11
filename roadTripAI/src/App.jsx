@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useState } from "react";
+
+import "./styles/App.css"
+
 import MenuBar from './components/MenuBar'
 
 function App() {
-
   return (
     <>
     <MenuBar />
@@ -12,4 +14,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
