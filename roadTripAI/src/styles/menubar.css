@@ -1,0 +1,25 @@
+.main{
+    background-image: '../assets/images/background.png';
+}
+
+.logo {
+    width: 5vw;
+    height: 8vh;
+}
+
+.menuHeader {
+    font-size: 6vh;
+    margin: 3vh;
+    background-color: #A2FF86;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.menubar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    padding-left: 20px;
+
+}
