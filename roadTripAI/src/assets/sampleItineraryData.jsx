@@ -1,5 +1,5 @@
 import { itinerary } from '../itinerary.js'; 
-// (import like this...) => import { itinerary } from '../assets/sampleItineraryData';
+// (import like this) => import { itinerary } from '../assets/sampleItineraryData';
 
 export const itinerary = [
     {
