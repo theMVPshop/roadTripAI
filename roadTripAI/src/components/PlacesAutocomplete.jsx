@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { GoogleApiWrapper } from "google-maps-react";
 import "../styles/PlacesAutocomplete.css";
 
-const PlacesAutocomplete = ({ google }) => {
+const PlacesAutocomplete = ({ google}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [predictions, setPredictions] = useState([]);
   const [location, setLocation] = useState("");
+  // const { location, setLocation } = props;
 
   const handleSetLocation = (event) => {
     const tempLocation = event.target.innerText;
     setLocation(tempLocation);
+    console.log("setlocation")
     setPredictions([]);
     setSearchTerm(tempLocation);
   };

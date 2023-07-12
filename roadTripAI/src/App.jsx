@@ -1,17 +1,17 @@
 import { useState } from "react";
 
-import "./styles/App.css"
+import "./styles/App.css";
 
-import MenuBar from './components/MenuBar'
+import MenuBar from "./components/MenuBar";
+import MainMenu from "./components/MainMenu";
 
 function App() {
   return (
     <>
-    <MenuBar />
-     <h1>Road Trip AI</h1>
-     <h2>Bottom Text</h2>
+      <MenuBar />
+      <MainMenu />
     </>
-  )
+  );
 }
 
 export default App;
