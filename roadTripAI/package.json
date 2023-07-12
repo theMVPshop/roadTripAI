@@ -10,8 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+<<<<<<< HEAD
+    "google-maps-react": "^2.0.6",
+    "file-loader": "^6.2.0",
+=======
     "file-loader": "^6.2.0",
     "leaflet": "^1.9.4",
+>>>>>>> 7962ae5956accc0c97b2af66fced5a84805fdac7
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-leaflet": "^4.2.1",

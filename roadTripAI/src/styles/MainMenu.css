@@ -1,0 +1,28 @@
+.mainMenu {
+  width: 80%;
+  min-height: 300px;
+  background-color: aqua;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.startLocationContainer {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+.startLocationTitle{
+  font-size: 2rem;
+}
+.endLocationInput {
+  display: flex;
+  width: 50%;
+}
+
+.mainMenuSubmitButton{
+  height: fit-content;
+  width: fit-content;
+  border-radius: 20px;
+  padding: 5px;
+  font-size: 2rem;
+}
