@@ -1,4 +1,3 @@
-import React from 'react';
 import logo from '../assets/images/logo.png'
 import '../styles/menubar.css'
 
@@ -6,7 +5,7 @@ const MenuBar = () => {
   return (
   <div className='main'>
     <nav>
-      <div className='menubar'>
+      <div className='menuBar'>
         <img className='logo' src={logo}/>
         <h1 className='menuHeader'>Trip Planner</h1>
       </div>

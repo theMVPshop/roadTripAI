@@ -5,5 +5,7 @@ body,
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: grey;
+  background: url("../assets/images/background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }

@@ -2,15 +2,15 @@ import { useState } from "react";
 
 import "./styles/App.css"
 
+import Input from './components/Input'
 import MenuBar from './components/MenuBar'
 
 function App() {
   return (
-    <>
+    <div className="App">
     <MenuBar />
-     <h1>Road Trip AI</h1>
-     <h2>Bottom Text</h2>
-    </>
+    <Input/>
+    </div>
   )
 }
 

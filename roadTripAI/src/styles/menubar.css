@@ -1,25 +1,31 @@
 .main{
-    background-image: '../assets/images/background.png';
+    background-color: #A2FF86;
 }
 
 .logo {
-    width: 5vw;
-    height: 8vh;
+    width: 100px;
+    height: 100px;
+    margin-left: 50px;
 }
 
 .menuHeader {
-    font-size: 6vh;
-    margin: 3vh;
+    margin: 30px;
     background-color: #A2FF86;
     padding-left: 10px;
     padding-right: 10px;
+    color: #1B6B93;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 85px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 }
 
-.menubar {
+.menuBar {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 20px;
     padding-left: 20px;
-
+    width: 100%;
 }
