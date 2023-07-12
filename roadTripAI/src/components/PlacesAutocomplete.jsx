@@ -1,12 +1,22 @@
 import React, { useState } from "react";
 import { GoogleApiWrapper } from "google-maps-react";
+import "../styles/PlacesAutocomplete.css";
 
 const PlacesAutocomplete = ({ google }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [predictions, setPredictions] = useState([]);
+  const [location, setLocation] = useState("");
+
+  const handleSetLocation = (event) => {
+    const tempLocation = event.target.innerText;
+    setLocation(tempLocation);
+    setPredictions([]);
+    setSearchTerm(tempLocation);
+  };
 
   const handleInputChange = (event) => {
     const searchTerm = event.target.value;
+
     setSearchTerm(searchTerm);
 
     if (searchTerm.length > 0) {
@@ -26,7 +36,7 @@ const PlacesAutocomplete = ({ google }) => {
   };
 
   return (
-    <div>
+    <div className="placesAutoComplete">
       <input
         type="text"
         className="prediction-input"
@@ -36,7 +46,13 @@ const PlacesAutocomplete = ({ google }) => {
       />
       <ul className="prediction-list">
         {predictions.map((prediction) => (
-          <li className="prediction" key={prediction.place_id}>{prediction.description}</li>
+          <li
+            className="prediction"
+            onClick={handleSetLocation}
+            key={prediction.place_id}
+          >
+            {prediction.description.slice(0, 50)}
+          </li>
         ))}
       </ul>
     </div>

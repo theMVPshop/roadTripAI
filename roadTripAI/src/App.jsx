@@ -1,13 +1,17 @@
 import { useState } from "react";
-import PlacesAutocomplete from "./components/PlacesAutocomplete";
+
 import "./styles/App.css"
+
+import MenuBar from './components/MenuBar'
 
 function App() {
   return (
-    <main className="App">
-      <h1>Road Trip AI</h1>
-      <PlacesAutocomplete />
-  );
+    <>
+    <MenuBar />
+     <h1>Road Trip AI</h1>
+     <h2>Bottom Text</h2>
+    </>
+  )
 }
 
 export default App;
