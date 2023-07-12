@@ -7,3 +7,8 @@ body,
   padding: 0;
   background-color: grey;
 }
+
+.leaflet-container {
+  width: 500px;
+  height: 500px;
+}
