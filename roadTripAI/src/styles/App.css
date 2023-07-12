@@ -12,3 +12,8 @@ body,
   justify-content: flex-start;
   align-items: center;
 }
+
+.leaflet-container {
+  width: 500px;
+  height: 500px;
+}
