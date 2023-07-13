@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import {fetchData} from '../assets/sampleIteneraryData.jsx'
+import {fetchData} from '../assets/sampleItineraryData.jsx'
 
-const DataFetcher = () => {
+const Results = () => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
@@ -19,11 +19,11 @@ const DataFetcher = () => {
     return (
         <div>
             {/* Render the fetched data */}
-            {data.map((item) => (
-                <div key={item.id}>{item.id}</div>
+            {data.map((itinerary) => (
+                <div key={itinerary.id}>{itinerary.id}</div>
             ))}
         </div>
     )
 }
 
-export default DataFetcher;
+export default Results;

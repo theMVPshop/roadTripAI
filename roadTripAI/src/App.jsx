@@ -3,15 +3,15 @@ import 'leaflet/dist/leaflet.css'
 
 import "./styles/App.css";
 
-import Input from './components/Input'
 import MenuBar from './components/MenuBar'
+import Results from './components/Results'
 import LeafletMap from "./components/LeafletMap";
 
 function App() {
   return (
     <div className="App">
     <MenuBar />
-    <Input/>
+    <LeafletMap/>
     <Results/>
     </div>
   )
