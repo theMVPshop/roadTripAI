@@ -6,12 +6,10 @@ import GetItinerary from "./components/GetItinerary";
 function App() {
   return (
     <>
-    <MenuBar />
-     <h1>Road Trip AI</h1>
-     <h2>Bottom Text</h2>
-     <GetItinerary></GetItinerary>
+      <MenuBar />
+      <MainMenu />
     </>
-  )
+  );
 }
 
 export default App;
