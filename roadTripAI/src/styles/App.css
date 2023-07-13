@@ -9,4 +9,7 @@ body,
   background: url("../assets/images/background.png");
   background-repeat: no-repeat;
   background-size: cover;
+.leaflet-container {
+  width: 500px;
+  height: 500px;
 }
