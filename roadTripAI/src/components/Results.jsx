@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {fetchData} from '../assets/images/sampleIteneraryData.jsx'
+import {fetchData} from '../assets/sampleIteneraryData.jsx'
 
 const DataFetcher = () => {
     const [data, setData] = useState([]);
@@ -12,6 +12,18 @@ const DataFetcher = () => {
                 } catch (error) {
                     // Handle Error //
                 }
-        }
-    })
+        };
+        fetchDataFromApi();
+    }, []);
+
+    return (
+        <div>
+            {/* Render the fetched data */}
+            {data.map((item) => (
+                <div key={item.id}>{item.id}</div>
+            ))}
+        </div>
+    )
 }
+
+export default DataFetcher;
