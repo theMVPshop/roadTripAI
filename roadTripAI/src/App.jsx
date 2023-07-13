@@ -5,6 +5,7 @@ import "./styles/App.css"
 
 import MenuBar from './components/MenuBar'
 import LeafletMap from "./components/LeafletMap";
+import GetItinerary from "./components/GetItinerary";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
      <h1>Road Trip AI</h1>
      <h2>Bottom Text</h2>
      <LeafletMap />
+     <GetItinerary />
     </>
   )
 }
