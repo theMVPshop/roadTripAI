@@ -12,6 +12,7 @@ function App() {
     <>
       <MenuBar />
       <MainMenu />
+      <LeafletMap />
     </>
   );
 }
