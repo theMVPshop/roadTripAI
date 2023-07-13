@@ -1,15 +1,8 @@
-html,
-body,
-#root,
-.App {
+.background {
   width: 100%;
   height: 100%;
-  margin: 0;
-  padding: 0;
-  background: url("../assets/images/background.png");
+  background-image: url("../assets/images/roadmap.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-.leaflet-container {
-  width: 500px;
-  height: 500px;
 }
+
