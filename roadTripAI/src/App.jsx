@@ -10,6 +10,7 @@ function App() {
     <div className="App">
     <MenuBar />
     <Input/>
+    <Results/>
     </div>
   )
 }
