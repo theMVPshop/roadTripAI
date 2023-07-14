@@ -2,6 +2,14 @@ body {
   margin: 0;
 }
 
-.app{
-
+.leaflet-container {
+  width: 650px;
+  height: 450px;
+}
+@media (max-width: 649px) {
+  .leaflet-container {
+    width: 80%;
+    height: 200px;
+    /* needs explicit value for height or MapContainer won't render */
+  }
 }

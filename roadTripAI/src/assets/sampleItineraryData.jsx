@@ -1,7 +1,6 @@
-import { itinerary } from '../itinerary.js'; 
 // (import like this) => import { itinerary } from '../assets/sampleItineraryData';
 
-export const itinerary = [
+export const itineraryDummyData = [
     {
       date: "2023-06-23",
       lng: -75.1652,

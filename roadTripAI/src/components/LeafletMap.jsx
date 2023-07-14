@@ -153,7 +153,7 @@ const LeafletMap = (props) => {
         sampleTrip will need to be changed to the state array */}
         {sampleTrip.map((stop) => {
           return (
-            <Marker position={[stop.lat, stop.lng]}>
+            <Marker key={stop.date} position={[stop.lat, stop.lng]}>
               <Popup>
                 {stop.city} <br />
                 {stop.desc}
