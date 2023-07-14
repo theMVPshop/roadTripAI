@@ -5,6 +5,8 @@ import "../styles/MainMenu.css";
 export default function MainMenu() {
   const [startLocation, setStartLocation] = useState("");
   const [endLocation, setEndLocation] = useState("");
+  const [results, setResults] = useState('');
+
   return (
     <div className="mainMenu">
       <div className="mainMenuInputContainer ">

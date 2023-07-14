@@ -26,4 +26,4 @@ const Results = () => {
     )
 }
 
-export default DataFetcher;
+export default Results;
