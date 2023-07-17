@@ -35,11 +35,15 @@ export default function MainMenu() {
 
         <section className="startDateContainer inputContainer">
           <h2 className="startDateTitle">Start Date:</h2>
-          <DatePicker onChange={setStartDate} value={startDate}/>
+          <DatePicker
+          className="startLocationInput"
+          onChange={setStartDate} 
+          value={startDate}
+          />
         </section>
 
         <section className="endLocationContainer inputContainer">
-          <h2 className="endLocationTitle">End Location:</h2>
+          <h2 className="startLocationTitle">End Location:</h2>
           <PlacesAutoComplete
             className="endLocationInput"
             location={endLocation}
@@ -48,7 +52,7 @@ export default function MainMenu() {
         </section>
 
         <section className="endDateContainer inputContainer">
-          <h2 className="endDateTitle">Start Location:</h2>
+          <h2 className="startLocationTitle">End Date:</h2>
           <DatePicker onChange={setEndDate} value={endDate}/>
         </section>
 
