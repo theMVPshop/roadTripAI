@@ -6,6 +6,7 @@ import 'react-date-picker/dist/DatePicker.css'; // Default styling for DatePicke
 import 'react-calendar/dist/Calendar.css';
 
 export default function MainMenu() {
+  // test comment
   const [startLocation, setStartLocation] = useState("");
   const [endLocation, setEndLocation] = useState("");
   const [startDate, setStartDate] = useState(new Date())
