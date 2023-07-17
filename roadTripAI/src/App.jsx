@@ -15,6 +15,7 @@ function App() {
      <GetItinerary />
       <MenuBar />
       <MainMenu />
+      <LeafletMap />
     </>
   );
 }
