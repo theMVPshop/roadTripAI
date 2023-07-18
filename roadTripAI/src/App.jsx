@@ -24,8 +24,9 @@ function App() {
      <LeafletMap />
      <GetItinerary  tripDetails={userInputs} submitted={submit} setSubmit={setSubmit}/>
       <MenuBar />
-      <MainMenu onSubmit={handleMainMenuSubmit} />
+      
       <LeafletMap />
+      <MainMenu onSubmit={handleMainMenuSubmit} />
     </>
   );
 }
