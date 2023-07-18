@@ -5,7 +5,7 @@ import "../styles/MainMenu.css";
 import 'react-date-picker/dist/DatePicker.css'; // Default styling for DatePicker
 import 'react-calendar/dist/Calendar.css';
 
-export default function MainMenu() {
+export default function MainMenu({onSubmit}) {
   // test comment
   const [startLocation, setStartLocation] = useState("");
   const [endLocation, setEndLocation] = useState("");
@@ -19,6 +19,13 @@ export default function MainMenu() {
     const day = String(date.getDate()).padStart(2, '0'); // Get day with leading zero if necessary
   
     return `${day}-${month}-${year}`; // Format the date as "dd-mm-yyyy"
+  }
+
+  const handleSubmit = () => {
+  
+    //onSubmit is a prop from app.jsx that collects user details to be able to use in GetItinerary
+    onSubmit({startLocation, endLocation, startDate, endDate})
+
   }
 
   return (
@@ -52,7 +59,7 @@ export default function MainMenu() {
           <DatePicker onChange={setEndDate} value={endDate}/>
         </section>
 
-        <button className="mainMenuSubmitButton">Submit</button>
+        <button className="mainMenuSubmitButton" onClick={handleSubmit}>Submit</button>
       </div>
     </div>
   );

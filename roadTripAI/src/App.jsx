@@ -6,15 +6,27 @@ import LeafletMap from "./components/LeafletMap";
 import GetItinerary from "./components/GetItinerary";
 
 function App() {
+
+  //save user inputs from main menu so that they can be sent to GetItinerary
+  const [userInputs, setUserInputs] =useState({});
+  const [submit, setSubmit] =useState(false)
+
+  //send this function as a prop to MainMenu to collect user inputs
+  const handleMainMenuSubmit = (tripDetails) => {
+    setUserInputs(tripDetails)
+    setSubmit(true)
+
+  }
+
   return (
     <>
     <MenuBar />
      <h1>Road Trip AI</h1>
      <h2>Bottom Text</h2>
      <LeafletMap />
-     <GetItinerary />
+     <GetItinerary  tripDetails={userInputs} submitted={submit} setSubmit={setSubmit}/>
       <MenuBar />
-      <MainMenu />
+      <MainMenu onSubmit={handleMainMenuSubmit} />
       <LeafletMap />
     </>
   );
