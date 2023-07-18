@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import PlacesAutoComplete from "./PlacesAutocomplete";
 import DatePicker from 'react-date-picker'
 import "../styles/MainMenu.css";
-import 'react-date-picker/dist/DatePicker.css'; // Default styling for DatePicker
 import 'react-calendar/dist/Calendar.css';
 
 export default function MainMenu() {
