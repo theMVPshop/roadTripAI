@@ -4,6 +4,7 @@ import DatePicker from 'react-date-picker'
 import "../styles/MainMenu.css";
 import 'react-date-picker/dist/DatePicker.css'; // Default styling for DatePicker
 import 'react-calendar/dist/Calendar.css';
+import Itinerary from "./Itinerary";
 
 export default function MainMenu() {
   const [startLocation, setStartLocation] = useState("");
@@ -57,6 +58,7 @@ export default function MainMenu() {
 
         <button className="mainMenuSubmitButton">Submit</button>
       </div>
+      <Itinerary />
     </div>
   );
 }
