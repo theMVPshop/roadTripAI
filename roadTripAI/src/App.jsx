@@ -21,8 +21,6 @@ function App() {
   return (
     <>
     <MenuBar />
-     <h1>Road Trip AI</h1>
-     <h2>Bottom Text</h2>
      <LeafletMap />
      <GetItinerary  tripDetails={userInputs} submitted={submit} setSubmit={setSubmit}/>
       <MenuBar />
