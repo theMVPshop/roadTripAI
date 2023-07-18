@@ -23,7 +23,7 @@ export default function MainMenu({onSubmit}) {
 
   const handleSubmit = () => {
   
-    //onSubmit is a prop from app.jsx that collects user details to be able to use in GetItinerary
+    //onSubmit is a prop from parent (app.jsx) that collects user details to be able to use in GetItinerary
     onSubmit({startLocation, endLocation, startDate, endDate})
 
   }
