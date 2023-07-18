@@ -3,6 +3,7 @@ import PlacesAutoComplete from "./PlacesAutocomplete";
 import DatePicker from 'react-date-picker'
 import "../styles/MainMenu.css";
 import 'react-calendar/dist/Calendar.css';
+import Itinerary from "./Itinerary";
 
 export default function MainMenu({onSubmit}) {
   // test comment
@@ -64,6 +65,7 @@ export default function MainMenu({onSubmit}) {
 
         <button className="mainMenuSubmitButton" onClick={handleSubmit}>Submit</button>
       </div>
+      <Itinerary />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 // (import like this) => import { itinerary } from '../assets/sampleItineraryData';
 
-export const itineraryDummyData = [
+const itineraryDummyData = [
     {
       date: "2023-06-23",
       lng: -75.1652,
@@ -164,7 +164,7 @@ export const itineraryDummyData = [
   ];
   
   
-  
+  export default itineraryDummyData;
   
   
   

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./styles/App.css"
 import MenuBar from './components/MenuBar'
 import MainMenu from "./components/MainMenu";
