@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PlacesAutoComplete from "./PlacesAutocomplete";
 import DatePicker from 'react-date-picker'
-import "../styles/MainMenu.css";
 import 'react-calendar/dist/Calendar.css';
 import Itinerary from "./Itinerary";
 
