@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { GoogleApiWrapper } from "google-maps-react";
-import "../styles/PlacesAutocomplete.css";
+
 
 const PlacesAutocomplete = ({ google, ...props}) => {
   const [searchTerm, setSearchTerm] = useState("");

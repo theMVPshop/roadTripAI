@@ -20,9 +20,10 @@ function App() {
 
   return (
     <>
-    <MenuBar />
-     <GetItinerary  tripDetails={userInputs} submitted={submit} setSubmit={setSubmit}/>      
+
+      <MenuBar />
       <MainMenu onSubmit={handleMainMenuSubmit} />
+      <GetItinerary  tripDetails={userInputs} submitted={submit} setSubmit={setSubmit}/>
     </>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import LeafletMap from "./LeafletMap";
+import LoadingSpinner from "./LoadingSpinner";
 
 
 const secretKey = import.meta.env.VITE_SECRET_KEY;
@@ -10,6 +11,7 @@ const url = "https://api.openai.com/v1/chat/completions";
 const GetItinerary = ({tripDetails, submitted, setSubmit}) => {
   const [itinerary, setItinerary] = useState([]);
   const [error, setError] = useState(null);
+  const [loaded, setLoaded] = useState(true)
 
   const {startLocation, endLocation, startDate, endDate} = tripDetails
 
@@ -26,6 +28,8 @@ const GetItinerary = ({tripDetails, submitted, setSubmit}) => {
     //clear any errors after new fetch made
     setError(null);
 
+    // render the LoadingSpinner while fetch call resolves
+    setLoaded(false)
 
     fetch(url, {
       method: "POST",
@@ -36,7 +40,7 @@ const GetItinerary = ({tripDetails, submitted, setSubmit}) => {
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
         messages: [
-          { role: "system", content: "You are a helpful assistant." },
+          { role: "system", content: "You are a helpful assistant who responds only in JSON objects" },
           { role: "user", content: prompt },
         ],
       }),
@@ -54,7 +58,8 @@ const GetItinerary = ({tripDetails, submitted, setSubmit}) => {
         console.error("Error:", error);
       }).then(()=>{
         setSubmit(false)
-      });
+      })
+      .finally(setLoaded(true))
   };
 
     // call fetchItinerary if submit button is clicked
@@ -67,6 +72,7 @@ const GetItinerary = ({tripDetails, submitted, setSubmit}) => {
   return (
     <div>
       {error && <p>Error: {error.message}</p>}
+      {!loaded ? <LoadingSpinner /> : null }
       <LeafletMap itinerary={itinerary} />
     </div>
   );
