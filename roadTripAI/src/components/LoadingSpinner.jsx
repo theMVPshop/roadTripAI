@@ -1,9 +1,6 @@
 
 
 const LoadingSpinner = () => {
-    const style = {
-        
-    }
 
     return (
             <div class="spin"/>

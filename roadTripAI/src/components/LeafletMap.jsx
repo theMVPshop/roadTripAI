@@ -20,7 +20,6 @@ const LeafletMap = ({itinerary}) => {
     const [lineOfTravel, setLineOfTravel]= useState([]);
     
     useEffect(()=> {
-     
      if( itinerary && itinerary.length ) {
       setLineOfTravel(itinerary.map(stop => [stop.lat, stop.lng]));
      }

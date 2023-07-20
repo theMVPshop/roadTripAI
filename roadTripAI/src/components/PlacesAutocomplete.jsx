@@ -11,7 +11,6 @@ const PlacesAutocomplete = ({ google, ...props}) => {
   const handleSetLocation = (event) => {
     const tempLocation = event.target.innerText;
     setLocation(tempLocation);
-    console.log("setlocation")
     setPredictions([]);
     setSearchTerm(tempLocation);
   };

@@ -21,21 +21,20 @@ const GetItinerary = ({tripDetails, submitted, setSubmit}) => {
   const prompt = `I'm planning a road trip, leaving on ${startDate} from ${startLocation} and arriving on ${endDate} at ${endLocation}. I want to drive the most efficient route with minimal detours. Make me an itinerary of interesting stops along the way. Each interesting place should be within a reasonable driving distance from the previous stop (between 3 and 8 hours), and be located along the direct route. Give me an array of objects, each object representing a day of the road trip. I want to know the date as YYYY-MM-DD (date), longitude (lng), latitude (lat), name of the stop (name), a description of the stop (desc), the city closest to the stop as 'city, state abbreviation' (city), the drive time from the previous stop as a decimal (time), and the average historical temperature for the stop on the date we will arrive (temp). Please do not provide any additional text outside of the array.`
 
 
-  const fetchItinerary = () => {
+  const fetchItinerary = async () => {
+
     //reset itinerary to blank when new one is being fetched
     setItinerary([]);
 
     //clear any errors after new fetch made
     setError(null);
-
-    // render the LoadingSpinner while fetch call resolves
-    setLoaded(false)
-
+   
     fetch(url, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${secretKey}`,
         "Content-Type": "application/json",
+
       },
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
@@ -59,14 +58,15 @@ const GetItinerary = ({tripDetails, submitted, setSubmit}) => {
       }).then(()=>{
         setSubmit(false)
       })
-      .finally(setLoaded(true))
   };
 
     // call fetchItinerary if submit button is clicked
     useEffect(()=> {
+      setLoaded(false)
       if(submitted) {
         fetchItinerary()
       }
+      else setLoaded(true)
     }, [submitted, prompt])
   
   return (
