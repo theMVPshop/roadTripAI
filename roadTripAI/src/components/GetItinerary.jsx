@@ -20,7 +20,8 @@ const GetItinerary = ({tripDetails, submitted, setSubmit}) => {
 
 
   const fetchItinerary = async () => {
-
+    //reset itinerary to blank when new one is being fetched
+    setItinerary([]);
 
     //clear any errors after new fetch made
     setError(null);
@@ -47,40 +48,37 @@ const GetItinerary = ({tripDetails, submitted, setSubmit}) => {
        
         let parsedContent;
        
-        try {
+        try {    
           //set parsed content to the parsed data
           parsedContent = JSON.parse(data.choices[0].message.content);
-        } catch (err) {
-          setError('Returned data is not valid JSON');
-          console.error('Returned data is not valid JSON: ', data.choices[0].message.content);
-        }
+          
+          //if API returns an object with a nexted array, then access the only key-value pair, which should be the array
+          if (!Array.isArray(parsedContent) && parsedContent !== undefined) {
+            parsedContent = Object.values(parsedContent)[0]; 
+          }
 
-        //if API returns an object with a nexted array, then access the only key-value pair, which should be the array
-        if (!Array.isArray(parsedContent) && parsedContent !== undefined) {
-          parsedContent = Object.values(parsedContent)[0]; 
-        }
-  
-        if(parsedContent !== undefined) {
-          parsedContent.unshift({
-            city: startLocation,
-            desc: "Start here",
-            //TO-DO: change to actual lat/lng of start location with google maps PlacesService and getDetails() method
-            lat:30.0866,
-            lng:-94.9027,
-          })
-          setItinerary(parsedContent);
-        }
-        setItinerary(parsedContent);
-        setSubmit(false);
-        setLoaded(true);
+          // Insert the starting location at the start of the itinerary
+          if(parsedContent !== undefined) {
+            parsedContent.unshift({
+              city: startLocation,
+              desc: "Start here",
+              //TODO: change to actual lat/lng of start location with google maps PlacesService and getDetails() method
+              lat:30.0866,
+              lng:-94.9027,
+            });
 
+            setItinerary(parsedContent);
+            setSubmit(false);
+          }
+        } catch(err) {
+          setError(err.toString());
+          setSubmit(false);
+        }
       })
       .catch((error) => {
-        setError(error);
-        console.error("Error:", error);
+        setError(error.toString());
         setSubmit(false);
-        setLoaded(true);
-      })
+      });
   };
 
     // call fetchItinerary if submit button is clicked
@@ -90,7 +88,7 @@ const GetItinerary = ({tripDetails, submitted, setSubmit}) => {
         fetchItinerary()
       }
       else setLoaded(true)
-    }, [submitted, prompt])
+    }, [submitted])
   
   return (
     <div>
