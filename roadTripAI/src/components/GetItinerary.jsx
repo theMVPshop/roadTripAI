@@ -21,21 +21,20 @@ const GetItinerary = ({tripDetails, submitted, setSubmit}) => {
   const prompt2= `Return the latitude and longitude for the ${startLocation} as variables, so that lng=num and long=num`
 
 
-  const fetchItinerary = () => {
+  const fetchItinerary = async () => {
+
     //reset itinerary to blank when new one is being fetched
 
 
     //clear any errors after new fetch made
     setError(null);
-
-    // render the LoadingSpinner while fetch call resolves
-    setLoaded(false)
-
+   
     fetch(url, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${secretKey}`,
         "Content-Type": "application/json",
+
       },
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
@@ -86,19 +85,16 @@ const GetItinerary = ({tripDetails, submitted, setSubmit}) => {
         setSubmit(false);
         setLoaded(true);
       })
-};
+  };
 
     // call fetchItinerary if submit button is clicked
     useEffect(()=> {
+      setLoaded(false)
       if(submitted) {
         fetchItinerary()
       }
-    }, [ submitted, fetchItinerary])
-
-    useEffect(() => {
-      console.log(itinerary);
-    }, [itinerary]);
-    
+      else setLoaded(true)
+    }, [submitted, prompt])
   
   return (
     <div>

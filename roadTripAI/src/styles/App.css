@@ -29,6 +29,8 @@ body {
   transform: translate3d(-50%, -50%, 0);
   will-change: transform;
 }
+
+
 /* menu bar */
 .main {
   background-color: #a2ff86;
