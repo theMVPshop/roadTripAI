@@ -14,7 +14,6 @@ function App() {
   const handleMainMenuSubmit = (tripDetails) => {
     setUserInputs(tripDetails)
     setSubmit(true)
-    console.log('submitted')
   }
 
   return (

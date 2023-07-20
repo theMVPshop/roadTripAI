@@ -89,7 +89,7 @@ const GetItinerary = ({ tripDetails, submitted, setSubmit }) => {
 
   return (
     <div>
-      {error && <p>Error: {error.message}</p>}
+      {error && <p>Error: {error}</p>}
       {!loaded ? <LoadingSpinner /> : null}
       <LeafletMap itinerary={itinerary} />
     </div>
