@@ -22,11 +22,10 @@ const GetItinerary = ({tripDetails, submitted, setSubmit}) => {
 
     //reset itinerary to blank when new one is being fetched
     setItinerary([]);
-    console.log("Itinerary: ", itinerary)
 
     //clear any errors after new fetch made
     setError(null);
-    console.log("loaded? ", loaded)
+   
     fetch(url, {
       method: "POST",
       headers: {
@@ -55,15 +54,15 @@ const GetItinerary = ({tripDetails, submitted, setSubmit}) => {
       }).then(()=>{
         setSubmit(false)
       })
-      .finally(setLoaded(true))
   };
 
     // call fetchItinerary if submit button is clicked
     useEffect(()=> {
+      setLoaded(false)
       if(submitted) {
-        setLoaded(false)
         fetchItinerary()
       }
+      else setLoaded(true)
     }, [submitted, prompt])
   
   return (
