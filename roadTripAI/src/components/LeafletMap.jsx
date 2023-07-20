@@ -39,6 +39,7 @@ const LeafletMap = ({itinerary}) => {
 
 
     return (
+      <div className='mapWrapper'>
       <MapContainer center={[39.833333, -95.68]} zoom={zoom} scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -60,6 +61,7 @@ const LeafletMap = ({itinerary}) => {
         <Polyline pathOptions={{ color: 'lime'} } positions={lineOfTravel} />
 
       </MapContainer>
+      </div>
     )
 }
 
