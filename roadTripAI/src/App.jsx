@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./styles/App.css"
 import MenuBar from './components/MenuBar'
 import MainMenu from "./components/MainMenu";
@@ -16,12 +16,14 @@ function App() {
     setSubmit(true)
   }
 
+
   return (
     <>
 
       <MenuBar />
       <MainMenu onSubmit={handleMainMenuSubmit} />
       <GetItinerary  tripDetails={userInputs} submitted={submit} setSubmit={setSubmit}/>
+      
     </>
   );
 }
