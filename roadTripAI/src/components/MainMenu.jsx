@@ -28,43 +28,45 @@ export default function MainMenu({onSubmit}) {
   }
 
   return (
-    <div className="mainMenu">
-      <div className="mainMenuInputContainer ">
-        <section className="startLocationContainer inputContainer">
-          <h2 className="startLocationTitle">Start Location:</h2>
+    <div className="mainMenu">        
+        <div className="locationContainer">
+        <section>
+          <h2>Start Location:</h2>
           <PlacesAutoComplete
-            className="startLocationInput"
             location={startLocation}
             setLocation={setStartLocation}
           />
         </section>
 
-        <section className="startDateContainer inputContainer">
-          <h2 className="startDateTitle">Start Date:</h2>
-          <DatePicker
-          className="startLocationInput"
-          onChange={setStartDate} 
-          value={startDate}
-          />
-        </section>
-
-        <section className="endLocationContainer inputContainer">
-          <h2 className="startLocationTitle">End Location:</h2>
+        <section>
+          <h2>End Location:</h2>
           <PlacesAutoComplete
-            className="endLocationInput"
             location={endLocation}
             setLocation={setEndLocation}
           />
         </section>
+        </div>
+        
 
-        <section className="endDateContainer inputContainer">
-          <h2 className="startLocationTitle">End Date:</h2>
-          <DatePicker onChange={setEndDate} value={endDate}/>
-        </section>
+        <div className="dateContainer">
+          <section>
+            <h2>Start Date:</h2>
+            <DatePicker
+            onChange={setStartDate} 
+            value={startDate}
+            />
+          </section>
 
-        <button className="mainMenuSubmitButton" onClick={handleSubmit}>Submit</button>
-      </div>
-      {/* <Itinerary /> */}
+          <section>
+            <h2>End Date:</h2>
+            <DatePicker
+            onChange={setEndDate} 
+            value={endDate}/>
+          </section>
+
+        </div>
+          <button className="submitButton" onClick={handleSubmit}>Submit</button>        
+          {/* <Itinerary /> */}
     </div>
   );
 }
