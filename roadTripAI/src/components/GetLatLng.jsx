@@ -42,9 +42,10 @@ const prompt = `I'm trying to obtain the latitude and longitude for a starting c
         } else {
         coordinates = parsedContent[0];
         }
-        
+
+        // don't need brackets around coordinates
       let locationCoordinates = [coordinates]
-     
+        console.log(locationCoordinates)
       return locationCoordinates;
       
     } catch(error) {
