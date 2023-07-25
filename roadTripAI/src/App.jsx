@@ -3,12 +3,14 @@ import "./styles/App.css"
 import MenuBar from './components/MenuBar'
 import MainMenu from "./components/MainMenu";
 import GetItinerary from "./components/GetItinerary";
+import LeafletMap from "./components/LeafletMap";
 
 function App() {
 
-  //save user inputs from main menu so that they can be sent to GetItinerary
-  const [userInputs, setUserInputs] =useState({});
+
   const [submit, setSubmit] =useState(false);
+  const [itinerary, setItinerary] = useState([]);
+  const [error, setError] = useState(null);
 
   //send this function as a prop to MainMenu to collect user inputs
   const handleMainMenuSubmit = (tripDetails) => {
@@ -19,9 +21,25 @@ function App() {
   return (
     <>
       <MenuBar />
-      <MainMenu onSubmit={handleMainMenuSubmit} />
-      <GetItinerary  tripDetails={userInputs} submitted={submit} setSubmit={setSubmit}/>
-      
+      <MainMenu 
+        onSubmit={handleMainMenuSubmit} 
+        itinerary={itinerary} 
+        setItinerary={setItinerary}
+        error={error}
+        setError={setError}
+        submit={submit}
+        setSubmit={setSubmit}
+      />
+      <GetItinerary  
+        submitted={submit} 
+        setSubmit={setSubmit}
+        itinerary={itinerary}
+        setItinerary={setItinerary}
+        error={error}
+        setError={setError}
+        />
+      {/* <LeafletMap itinerary={itinerary} setItinerary={setItinerary}/> */}
+
     </>
   );
 }
