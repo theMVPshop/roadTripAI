@@ -63,10 +63,10 @@ export default function MainMenu({onSubmit}) {
             onChange={setEndDate} 
             value={endDate}/>
           </section>
-
         </div>
           <button className="submitButton" onClick={handleSubmit}>Submit</button>        
           {/* <Itinerary /> */}
+
     </div>
   );
 }

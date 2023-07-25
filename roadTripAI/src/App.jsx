@@ -21,6 +21,7 @@ function App() {
       <MenuBar />
       <MainMenu onSubmit={handleMainMenuSubmit} />
       <GetItinerary  tripDetails={userInputs} submitted={submit} setSubmit={setSubmit}/>
+      
     </>
   );
 }
