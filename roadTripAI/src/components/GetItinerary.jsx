@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import LeafletMap from "./LeafletMap";
 import LoadingSpinner from "./LoadingSpinner";
 
-import { getStartingPoint } from './GetLatLng';
+import { GetLatLng } from './GetLatLng';
 
 const secretKey = import.meta.env.VITE_SECRET_KEY;
 
@@ -28,7 +28,7 @@ const GetItinerary = ({ tripDetails, submitted, setSubmit }) => {
       lng: coordinates[0].lng
     },{
         city: endLocation,
-        desc: "Enjoy!",
+        desc: "You've arrived!",
         lat: coordinates[1].lat,
         lng: coordinates[1].lng
     }])
@@ -103,7 +103,7 @@ const GetItinerary = ({ tripDetails, submitted, setSubmit }) => {
   useEffect(() => {
     setLoaded(false);
     if (submitted) {
-      getStartingPoint(startLocation, endLocation)
+      GetLatLng(startLocation, endLocation)
       .then((locationCoordinates)=>{
         let [coordinates] = locationCoordinates;
         return fetchItinerary(coordinates)

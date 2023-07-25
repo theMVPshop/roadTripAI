@@ -1,4 +1,4 @@
-export async function getStartingPoint(startLocation, endLocation) {
+export async function GetLatLng(startLocation, endLocation) {
   const secretKey = import.meta.env.VITE_SECRET_KEY;
  
   const url = "https://api.openai.com/v1/chat/completions";
