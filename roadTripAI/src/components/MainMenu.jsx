@@ -64,7 +64,7 @@ export default function MainMenu({onSubmit}) {
 
         <button className="mainMenuSubmitButton" onClick={handleSubmit}>Submit</button>
       </div>
-      {/* <Itinerary /> */}
+      <Itinerary />
     </div>
   );
 }
