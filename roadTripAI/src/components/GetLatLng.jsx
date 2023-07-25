@@ -3,9 +3,8 @@ export async function getStartingPoint(startLocation, endLocation) {
  
   const url = "https://api.openai.com/v1/chat/completions";
  
-//   const prompt = `please return the latitude and longitude for ${startLocation} and ${endLocation}. Return each location as an object. Each Object should have 2 key-value pairs like this {lat: num, lng: num}, {lat: num, lng: num}. Put these 2 objects inside of array`;
 
-const prompt = `please return the latitude and longitude for ${startLocation} and ${endLocation}.  Return each location as an object. Each Object should have 2 key-value pairs like this {lat: num, lng: num}, {lat: num, lng: num}. Put these 2 objects inside of array`;
+const prompt = `I'm trying to obtain the latitude and longitude for a starting city and ending city that I can use to plot each location on a map. So I need them returned in a specific format. Please return the latitude and longitude for ${startLocation} and ${endLocation}.  Return an unnamed array with each location as an object. Each location object should have 2 key-value pairs like this {lat: num, lng: num}.`;
 
   return fetch(url, {
     method: "POST",
@@ -28,28 +27,22 @@ const prompt = `please return the latitude and longitude for ${startLocation} an
       return response.json();
     })
     .then((data) => {
-        let startPoint;
-        let endPoint;
+        let coordinates;
         let parsedContent;
-        console.log(JSON.parse(data.choices[0].message.content))
 
         parsedContent = JSON.parse(data.choices[0].message.content);
 
         //if API returns an object with a nested array, then access the only key-value pair, which should be the array
         if (!Array.isArray(parsedContent) && parsedContent !== undefined) {
-          startPoint = Object.values(parsedContent)[0];
-          endPoint = Object.values(parsedContent)[1];
+          coordinates = Object.values(parsedContent)[0];
+         
+        } else {
+        coordinates = parsedContent[0];
         }
-
-    //   let startPoint = JSON.parse(data.choices[0].message.content.locations[0]);
-    //   let endPoint =JSON.parse(data.choices[0].message.content.locations[1])
         
-      let arrayPoints = [startPoint, endPoint]
-      console.log([startPoint, endPoint])
-
-      return arrayPoints;
+      let locationCoordinates = [coordinates]
+     
+      return locationCoordinates;
       
-    });
-
-    
+    }); 
 }
