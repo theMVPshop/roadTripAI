@@ -147,7 +147,7 @@ export default function MainMenu({onSubmit, submit, setSubmit, itinerary, setIti
 
         <button className="mainMenuSubmitButton" onClick={handleSubmit} disabled={submit}>Submit</button>
       </div>
-      {/* <Itinerary /> */}
+      <Itinerary />
     </div>
   );
 }

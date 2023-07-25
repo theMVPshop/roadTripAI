@@ -40,6 +40,7 @@ function App() {
         setError={setError}
         />
       {/* <LeafletMap itinerary={itinerary} setItinerary={setItinerary}/> */}
+
     </>
   );
 }

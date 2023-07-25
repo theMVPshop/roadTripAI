@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import LeafletMap from "./LeafletMap";
 import LoadingSpinner from "./LoadingSpinner";
 
+import { GetLatLng } from "./GetLatLng";
+
 const secretKey = import.meta.env.VITE_SECRET_KEY;
 
 const url = "https://api.openai.com/v1/chat/completions";
@@ -10,9 +12,9 @@ const GetItinerary = ({ submitted, setSubmit, itinerary, setItinerary, error, se
   const [loaded, setLoaded] = useState(true);
 
 
-  // make the LoadingSpinner appear when submitted
+
   useEffect(() => {
-    setLoaded(!submitted);
+    setLoaded(!submitted)
   }, [submitted]);
 
   return (
