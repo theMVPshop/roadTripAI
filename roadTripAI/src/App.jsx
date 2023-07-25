@@ -20,7 +20,6 @@ function App() {
 
   return (
     <>
-
       <MenuBar />
       <MainMenu 
         onSubmit={handleMainMenuSubmit} 

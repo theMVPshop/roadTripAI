@@ -16,16 +16,14 @@ const Itinerary = () => {
             </h1>
             <ul>
                 {newItinerary.map((item, index) => (
-                    <li key={index}>
-                        <li>
+                    <ul key={index}>
+                        <ul>
                             Head towards the city of 
-                                <h1>{item.name}</h1> 
-                                on 
-                                <p>{item.date}</p> 
-                                and
-                                <p>{item.desc}</p>
-                        </li>
-                    </li>
+                                <li>{item.name}</li> on 
+                                <li>{item.date}</li> and
+                                <li>{item.desc}</li>
+                        </ul>
+                    </ul>
                 ))}
             </ul>
         </div>
