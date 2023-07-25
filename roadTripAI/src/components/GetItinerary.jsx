@@ -58,7 +58,7 @@ const GetItinerary = ({ tripDetails, submitted, setSubmit }) => {
         return response.json();
       })
       .then((data) => {
-        let parsedContent;
+        let parsedContent
 
         try {
           //set parsed content to the parsed data
@@ -107,6 +107,9 @@ const GetItinerary = ({ tripDetails, submitted, setSubmit }) => {
       .then((locationCoordinates)=>{
         let [coordinates] = locationCoordinates;
         return fetchItinerary(coordinates)
+      }).catch((error)=>{
+        setError(error.toString())
+        setSubmit(false)
       });
   
     } else setLoaded(true);
