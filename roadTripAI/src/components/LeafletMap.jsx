@@ -23,7 +23,7 @@ const LeafletMap = ({itinerary}) => {
      if( itinerary && itinerary.length ) {
       setLineOfTravel(itinerary.map(stop => [stop.lat, stop.lng]));
      }
-
+    //  else setLineOfTravel[], so the line will disappear
     }, [itinerary])
 
     // The following code changes the default zoom of the MapContainer

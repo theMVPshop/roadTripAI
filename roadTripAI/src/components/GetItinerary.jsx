@@ -6,20 +6,18 @@ const secretKey = import.meta.env.VITE_SECRET_KEY;
 
 const url = "https://api.openai.com/v1/chat/completions";
 
-const GetItinerary = ({ submitted, setSubmit, itinerary, setItinerary, error, setError }) => {
-  const [loaded, setLoaded] = useState(true);
+const GetItinerary = ({ submitted, itinerary, error }) => {
+
 
 
   // make the LoadingSpinner appear when submitted
-  useEffect(() => {
-    setLoaded(!submitted);
-  }, [submitted]);
+
 
   return (
     <div>
-      {error && <p>Error: {error}</p>}
+      
       {/* todo: In refactoring fetch request, did not refactor error */}
-      {!loaded ? <LoadingSpinner /> : null}
+      
       <LeafletMap itinerary={itinerary} />
     </div>
   );

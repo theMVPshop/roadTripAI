@@ -2,24 +2,26 @@ import React, { useState, useEffect } from "react";
 import PlacesAutoComplete from "./PlacesAutocomplete";
 import DatePicker from 'react-date-picker'
 import 'react-calendar/dist/Calendar.css';
-import Itinerary from "./Itinerary";
 const secretKey = import.meta.env.VITE_SECRET_KEY;
 
-export default function MainMenu({onSubmit, submit, setSubmit, itinerary, setItinerary, error, setError}) {
-  // test comment
+export default function MainMenu({ submit, setSubmit, setItinerary, error, setError}) {
+
   const [startLocation, setStartLocation] = useState("");
   const [endLocation, setEndLocation] = useState("");
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
-  const abortController = new AbortController();
+  let abortController = new AbortController();
 
   // re-enables button and cancels fetch if user changes data
   useEffect(()=> {
     if(submit) {
       setSubmit(false)
-      abortController.abort()
+      console.log("Aborting...")
+      const controller = abortController
+      controller.abort()
+      abortController = new AbortController()
     }
-    
+    // callback function cancels fetch if when component unmounts
     return () => {
       abortController.abort();
     }
@@ -51,10 +53,10 @@ export default function MainMenu({onSubmit, submit, setSubmit, itinerary, setIti
   }
 
   const fetchItinerary = async () => {
-
+    const controller = abortController
     fetch(url, {
       method: "POST",
-      signal: abortController.signal,
+      signal: controller.signal,
       headers: {
         Authorization: `Bearer ${secretKey}`,
         "Content-Type": "application/json",
@@ -147,7 +149,6 @@ export default function MainMenu({onSubmit, submit, setSubmit, itinerary, setIti
 
         <button className="mainMenuSubmitButton" onClick={handleSubmit} disabled={submit}>Submit</button>
       </div>
-      {/* <Itinerary /> */}
     </div>
   );
 }
