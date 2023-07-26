@@ -41,11 +41,12 @@ export async function GetLatLng(startLocation, endLocation) {
     } else {
       coordinates = parsedContent[0];
     }
-
+      //return the coordinates array back to MainMenu.jsx to be used in fetchItinerary()
     return coordinates;
-    
+
   } catch (error) {
-    throw error;
     // re-throw the error to be caught by the GetLatLng call in GetItinerary
+    throw error;
+    
   }
 }
