@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./styles/App.css"
 import MenuBar from './components/MenuBar'
 import MainMenu from "./components/MainMenu";
-import GetItinerary from "./components/GetItinerary";
 import LeafletMap from "./components/LeafletMap";
 
 function App() {
@@ -30,15 +29,8 @@ function App() {
         submit={submit}
         setSubmit={setSubmit}
       />
-      <GetItinerary  
-        submitted={submit} 
-        setSubmit={setSubmit}
-        itinerary={itinerary}
-        setItinerary={setItinerary}
-        error={error}
-        setError={setError}
-        />
-      {/* <LeafletMap itinerary={itinerary} setItinerary={setItinerary}/> */}
+    
+      <LeafletMap itinerary={itinerary} setItinerary={setItinerary}/>
 
     </>
   );
