@@ -64,7 +64,7 @@ export default function MainMenu({onSubmit, submit, setSubmit, itinerary, setIti
             lat: coordinates[1].lat,
             lng: coordinates[1].lng
         }])
-        return fetchItinerary(coordinates)
+        return fetchItinerary(coordinates) 
       }).catch((error) => {
         setError(error.toString())
       })
