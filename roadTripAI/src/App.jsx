@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./styles/App.css"
 import MenuBar from './components/MenuBar'
 import MainMenu from "./components/MainMenu";
+
 import LoadingSpinner from "./components/LoadingSpinner";
 import LeafletMap from "./components/LeafletMap";
 
