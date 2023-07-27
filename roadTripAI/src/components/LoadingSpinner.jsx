@@ -3,7 +3,7 @@
 const LoadingSpinner = () => {
 
     return (
-            <div class="spin"/>
+            <div className="spin"/>
     )
 }
 
