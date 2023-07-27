@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import PlacesAutoComplete from "./PlacesAutocomplete";
 import DatePicker from 'react-date-picker'
 import 'react-calendar/dist/Calendar.css';
+import Itinerary from "./Itinerary";
+import { GetLatLng } from "./GetLatLng";
+
 const secretKey = import.meta.env.VITE_SECRET_KEY;
 
 export default function MainMenu({ submit, setSubmit, setItinerary, setError}) {
@@ -45,12 +48,29 @@ export default function MainMenu({ submit, setSubmit, setItinerary, setError}) {
 
     //clear any errors after new fetch made
     setError(null);
-    
-    fetchItinerary()
-
+   
+    GetLatLng(startLocation, endLocation)
+      .then((coordinates)=> {
+        setItinerary([
+          {
+            city: startLocation,
+            desc: "Start here",
+            lat: coordinates[0].lat,
+            lng: coordinates[0].lng,
+          },
+          {
+            city: endLocation,
+            desc: "You've arrived!",
+            lat: coordinates[1].lat,
+            lng: coordinates[1].lng
+        }])
+        return fetchItinerary(coordinates) 
+      }).catch((error) => {
+        setError(error.toString())
+      })
   }
 
-  const fetchItinerary = async () => {
+  const fetchItinerary = async (coordinates) => {
     abortController.current = new AbortController()
     fetch(url, {
       method: "POST",
@@ -91,10 +111,17 @@ export default function MainMenu({ submit, setSubmit, setItinerary, setError}) {
             parsedContent.unshift({
               city: startLocation,
               desc: "Start here",
-              //TODO: change to actual lat/lng of start location with google maps PlacesService and getDetails() method
-              lat: 30.0866,
-              lng: -94.9027,
+              lat: coordinates[0].lat,
+              lng: coordinates[0].lng
             });
+
+            //insert the ending location at the end of the itinerary
+            parsedContent.push({
+              city: endLocation,
+              desc: "Enjoy!",
+              lat: coordinates[1].lat,
+              lng: coordinates[1].lng
+          });
 
             setItinerary(parsedContent);
             setSubmit(false);
@@ -111,42 +138,48 @@ export default function MainMenu({ submit, setSubmit, setItinerary, setError}) {
   };
 
   return (
-    <div className="mainMenu">
-      <div className="mainMenuInputContainer ">
-        <section className="startLocationContainer inputContainer">
-          <h2 className="startLocationTitle">Start Location:</h2>
+    <div className="mainMenu">        
+        <div className="locationContainer">
+        <section>
+          <h2>Start Location:</h2>
           <PlacesAutoComplete
-            className="startLocationInput"
             location={startLocation}
             setLocation={setStartLocation}
           />
         </section>
 
-        <section className="startDateContainer inputContainer">
-          <h2 className="startDateTitle">Start Date:</h2>
-          <DatePicker
-          className="startLocationInput"
-          onChange={setStartDate} 
-          value={startDate}
-          />
-        </section>
-
-        <section className="endLocationContainer inputContainer">
-          <h2 className="startLocationTitle">End Location:</h2>
+        <section>
+          <h2>End Location:</h2>
           <PlacesAutoComplete
-            className="endLocationInput"
             location={endLocation}
             setLocation={setEndLocation}
           />
         </section>
+        </div>
+        
 
-        <section className="endDateContainer inputContainer">
-          <h2 className="startLocationTitle">End Date:</h2>
-          <DatePicker onChange={setEndDate} value={endDate}/>
-        </section>
+        <div className="dateContainer">
+          <section>
+            <h2>Start Date:</h2>
+            <DatePicker
+            onChange={setStartDate} 
+            value={startDate}
+            />
+          </section>
+
+          <section>
+            <h2>End Date:</h2>
+            <DatePicker
+            onChange={setEndDate} 
+            value={endDate}/>
+          </section>
+        </div>
+          <button className="submitButton" onClick={handleSubmit}>Submit</button>        
+
 
         <button className="mainMenuSubmitButton" onClick={handleSubmit} disabled={submit}>Submit</button>
-      </div>
-    </div>
+
+      <Itinerary />
+  </div>
   );
 }

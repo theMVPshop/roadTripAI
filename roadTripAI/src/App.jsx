@@ -15,7 +15,6 @@ function App() {
 
   return (
     <>
-
       <MenuBar />
       <MainMenu 
         itinerary={itinerary} 

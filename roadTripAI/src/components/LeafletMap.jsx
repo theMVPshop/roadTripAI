@@ -39,6 +39,7 @@ const LeafletMap = ({itinerary}) => {
 
 
     return (
+      <div className='mapWrapper'>
       <MapContainer center={[39.833333, -95.68]} zoom={zoom} scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -47,9 +48,9 @@ const LeafletMap = ({itinerary}) => {
         {/* The following map() returns a marker for every stop, with a
         Popup showing the name and description.
         sampleTrip will need to be changed to the state array */}
-        {itinerary && itinerary.length >0 && itinerary.map((stop) => {
+        {itinerary && itinerary.length >0 && itinerary.map((stop, index) => {
           return (
-            <Marker key={stop.date} position={[stop.lat, stop.lng]}>
+            <Marker key={index} position={[stop.lat, stop.lng]}>
               <Popup>
                 {stop.city} <br />
                 {stop.desc}
@@ -60,6 +61,7 @@ const LeafletMap = ({itinerary}) => {
         <Polyline pathOptions={{ color: 'lime'} } positions={lineOfTravel} />
 
       </MapContainer>
+      </div>
     )
 }
 
