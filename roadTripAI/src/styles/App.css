@@ -36,6 +36,7 @@ body {
   width: 40px;
   transform: translate3d(-50%, -50%, 0);
   will-change: transform;
+  margin: auto;
 }
 
 
@@ -72,14 +73,16 @@ body {
 .locationContainer {
   display: flex;
   flex-direction: row;
-  width: 80%;
+  justify-content: space-between;
+  /* width: 80%; */
   gap: 50px;
 }
 
 .dateContainer {
   display: flex;
   flex-direction: row;
-  width: 80%;
+  justify-content: space-between;
+  /* width: 80%; */
   gap: 50px;
 }
 

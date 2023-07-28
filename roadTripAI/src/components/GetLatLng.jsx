@@ -1,4 +1,4 @@
-export async function GetLatLng(startLocation, endLocation) {
+export async function GetLatLng(startLocation, endLocation, controller) {
   const secretKey = import.meta.env.VITE_SECRET_KEY;
 
   const url = "https://api.openai.com/v1/chat/completions";
@@ -8,6 +8,7 @@ export async function GetLatLng(startLocation, endLocation) {
   try {
     const response = await fetch(url, {
       method: "POST",
+      signal: controller.signal,
       headers: {
         Authorization: `Bearer ${secretKey}`,
         "Content-Type": "application/json",

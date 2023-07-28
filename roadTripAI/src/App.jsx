@@ -14,6 +14,7 @@ function App() {
   const [error, setError] = useState(null);
 
 
+
   return (
     <>
       <MenuBar />
@@ -25,10 +26,10 @@ function App() {
         setSubmit={setSubmit}
       />
       {error && <p>Error: {error}</p>}
-      {submit ? <LoadingSpinner /> : null}
+      {/* {submit ? <LoadingSpinner message={message}/> : null}
       <LeafletMap 
         itinerary={itinerary}
-      />
+      /> */}
     </>
   );
 }

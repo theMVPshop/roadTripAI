@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import itineraryDummyData from '../assets/sampleItineraryData';
 
-const Itinerary = () => {
+const Itinerary = ({stops}) => {
     const [newItinerary, setNewItinerary] = useState([]);
 
     useEffect(() => {
-        setNewItinerary(itineraryDummyData);
-        console.log(itineraryDummyData)
-    }, [])
+        setNewItinerary(stops);
+        console.log(stops)
+    }, [stops])
 
     return (
         <div>
