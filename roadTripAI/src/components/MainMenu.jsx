@@ -4,6 +4,7 @@ import DatePicker from 'react-date-picker'
 import 'react-calendar/dist/Calendar.css';
 import Itinerary from "./Itinerary";
 import { GetLatLng } from "./GetLatLng";
+import { fetchPhotos } from "./GetPhotos";
 
 const secretKey = import.meta.env.VITE_SECRET_KEY;
 
@@ -122,8 +123,9 @@ export default function MainMenu({onSubmit, submit, setSubmit, itinerary, setIti
               lat: coordinates[1].lat,
               lng: coordinates[1].lng
           });
-
+            
             setItinerary(parsedContent);
+            fetchPhotos(itinerary);
             setSubmit(false);
           }
         } catch (err) {
@@ -136,8 +138,10 @@ export default function MainMenu({onSubmit, submit, setSubmit, itinerary, setIti
         setSubmit(false);
       });
   };
+ 
 
   return (
+    
     <div className="mainMenu">        
         <div className="locationContainer">
         <section>
