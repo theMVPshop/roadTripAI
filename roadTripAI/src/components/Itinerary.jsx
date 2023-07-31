@@ -6,13 +6,13 @@ import 'slick-carousel/slick/slick-theme.css';
 
 
 
-const Itinerary = () => {
+const Itinerary = ({stops}) => {
     const [newItinerary, setNewItinerary] = useState([]);
 
     useEffect(() => {
-        setNewItinerary(itineraryDummyData);
-        console.log(itineraryDummyData)
-    }, [])
+        setNewItinerary(stops);
+        console.log(stops)
+    }, [stops])
 
 
 const carouselItems = newItinerary.map(item => (
