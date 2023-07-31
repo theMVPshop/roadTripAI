@@ -11,7 +11,6 @@ export async function fetchPhotos(itinerary) {
         return response.json()
     })
     .then((data)=> {
-        console.log(data)
         if (data && data.photos && data.photos[0]) {
         image = data.photos[0].image.web
     
@@ -28,7 +27,8 @@ export async function fetchPhotos(itinerary) {
         return null
     })
     }
-    return image
+    console.log(itinerary)
+    return itinerary
     
 
 }
