@@ -5,6 +5,7 @@ import MainMenu from "./components/MainMenu";
 
 import LoadingSpinner from "./components/LoadingSpinner";
 import LeafletMap from "./components/LeafletMap";
+import RealLatLng from "./components/RealLatLng";
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
 
   return (
     <>
+      <RealLatLng ininerary={itinerary} />
       <MenuBar />
       <MainMenu 
         itinerary={itinerary} 
