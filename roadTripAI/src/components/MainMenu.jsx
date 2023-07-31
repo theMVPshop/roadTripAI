@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PlacesAutoComplete from "./PlacesAutocomplete";
 import DatePicker from "react-date-picker";
 import "react-calendar/dist/Calendar.css";
@@ -9,30 +9,34 @@ import { fetchPhotos } from "./GetPhotos";
 const secretKey = import.meta.env.VITE_SECRET_KEY;
 
 export default function MainMenu({
-  onSubmit,
+  
   submit,
   setSubmit,
-  itinerary,
+ 
   setItinerary,
-  error,
+ 
   setError,
 }) {
-  // test comment
   const [startLocation, setStartLocation] = useState("");
   const [endLocation, setEndLocation] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const abortController = new AbortController();
+  let abortController = useRef(new AbortController());
 
   // re-enables button and cancels fetch if user changes data
-  useEffect(() => {
-    if (submit) {
-      setSubmit(false);
-      abortController.abort();
+  useEffect(()=> {
+    if(submit) {
+      setSubmit(false)
+      console.log("Aborting...")
+      abortController.current.abort()
     }
-
+    // callback function cancels fetch if when component unmounts
     return () => {
-      abortController.abort();
+      abortController.current.abort();
+    }
+// callback function cancels fetch if when component unmounts
+    return () => {
+      abortController.current.abort();
     };
   }, [startLocation, startDate, endLocation, endDate]);
 
@@ -80,9 +84,10 @@ export default function MainMenu({
   };
 
   const fetchItinerary = async (coordinates) => {
+    abortController.current = new AbortController()
     fetch(url, {
       method: "POST",
-      signal: abortController.signal,
+      signal: abortController.current.signal,
       headers: {
         Authorization: `Bearer ${secretKey}`,
         "Content-Type": "application/json",
@@ -148,7 +153,7 @@ export default function MainMenu({
       .catch((error) => {
         setError(error.toString());
         setSubmit(false);
-      });
+      })
   };
 
   return (
