@@ -60,7 +60,8 @@ export default function MainMenu({
     setMessage("Calculating start and end points...")
 
     abortController.current = new AbortController()
-   
+    
+
     GetLatLng(startLocation, endLocation, abortController.current)
       .then((coordinates)=> {
         setMessage("Discovering points of interest along the way...")
@@ -124,6 +125,7 @@ export default function MainMenu({
           // Insert the starting location at the start of the itinerary
           if (parsedContent !== undefined) {
             parsedContent.unshift({
+              name: startLocation,
               city: startLocation,
               desc: "Start here",
               lat: coordinates[0].lat,
@@ -132,6 +134,7 @@ export default function MainMenu({
 
             //insert the ending location at the end of the itinerary
             parsedContent.push({
+              name: endLocation,
               city: endLocation,
               desc: "You've Arrived!",
               lat: coordinates[1].lat,
@@ -139,12 +142,6 @@ export default function MainMenu({
             });
             
             setItinerary(parsedContent);
-            fetchPhotos(itinerary).then((updatedItinerary) => {
-              setItinerary(updatedItinerary);
-            })
-            .catch((err)=> {
-              setError(err.toString())
-            });
             setSubmit(false);
           }
         } catch (err) {
@@ -157,6 +154,18 @@ export default function MainMenu({
         setSubmit(false);
       })
   };
+
+  useEffect(() => {
+    if (itinerary.length > 0) {
+      fetchPhotos(itinerary)
+        .then((updatedItinerary) => {
+          setItinerary(updatedItinerary);
+        })
+        .catch((err) => {
+          setError(err.toString());
+        });
+    }
+  }, [itinerary]);
 
   return (
     <div className="mainMenu">
@@ -200,7 +209,7 @@ export default function MainMenu({
       <LeafletMap 
         itinerary={itinerary}
       />
-      <Itinerary itinerary={itinerary} setItinerary={setItinerary} />
+      <Itinerary stops={itinerary} />
   </div>
   );
 }

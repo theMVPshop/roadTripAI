@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 
 const RealLatLng = (props) => {
-    const { itinerary } = props
+    const { itinerary, setItinerary } = props
 
     const [stops, setStops] = useState([])
 
@@ -16,7 +16,8 @@ const RealLatLng = (props) => {
                     arr.push(data[0].lat)
                     })
                 })
-            setStops(arr)}
+            setStops(arr)
+            setItinerary(arr)}
     }, [itinerary])
 
     return (
