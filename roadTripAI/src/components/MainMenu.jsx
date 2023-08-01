@@ -3,6 +3,8 @@ import PlacesAutoComplete from "./PlacesAutocomplete";
 import DatePicker from "react-date-picker";
 import "react-calendar/dist/Calendar.css";
 import Itinerary from "./Itinerary";
+import LeafletMap from "./LeafletMap";
+import LoadingSpinner from "./LoadingSpinner";
 import { GetLatLng } from "./GetLatLng";
 import { fetchPhotos } from "./GetPhotos";
 
@@ -12,13 +14,14 @@ export default function MainMenu({
   submit,
   setSubmit,
   itinerary,
-  setItinerary,
+  itinerary, setItinerary,
   setError,
 }) {
   const [startLocation, setStartLocation] = useState("");
   const [endLocation, setEndLocation] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [message, setMessage] = useState("")
   let abortController = useRef(new AbortController());
 
   // re-enables button and cancels fetch if user changes data
@@ -54,8 +57,13 @@ export default function MainMenu({
     //clear any errors after new fetch made
     setError(null);
 
-    GetLatLng(startLocation, endLocation)
-      .then((coordinates) => {
+    setMessage("Calculating start and end points...")
+
+    abortController.current = new AbortController()
+   
+    GetLatLng(startLocation, endLocation, abortController.current)
+      .then((coordinates)=> {
+        setMessage("Discovering points of interest along the way...")
         setItinerary([
           {
             city: startLocation,
@@ -78,7 +86,7 @@ export default function MainMenu({
   };
 
   const fetchItinerary = async (coordinates) => {
-    abortController.current = new AbortController()
+    
     fetch(url, {
       method: "POST",
       signal: abortController.current.signal,
@@ -179,30 +187,20 @@ export default function MainMenu({
           />
         </section>
 
-        <section>
-          <h2>End Date:</h2>
-          <DatePicker
-            onChange={setEndDate}
-            value={endDate}
-          />
-        </section>
-      </div>
-      <button
-        className="submitButton"
-        onClick={handleSubmit}
-      >
-        Submit
-      </button>
+          <section>
+            <h2>End Date:</h2>
+            <DatePicker
+            onChange={setEndDate} 
+            value={endDate}/>
+          </section>
+        </div>
+          <button className="submitButton" onClick={handleSubmit} disabled={submit}>Submit</button>        
 
-      <button
-        className="mainMenuSubmitButton"
-        onClick={handleSubmit}
-        disabled={submit}
-      >
-        Submit
-      </button>
-
-      {/* <Itinerary /> */}
-    </div>
+      {submit ? <LoadingSpinner message={message}/> : null}
+      <LeafletMap 
+        itinerary={itinerary}
+      />
+      <Itinerary stops={itinerary} />
+  </div>
   );
 }

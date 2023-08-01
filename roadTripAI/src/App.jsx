@@ -5,6 +5,7 @@ import MainMenu from "./components/MainMenu";
 
 import LoadingSpinner from "./components/LoadingSpinner";
 import LeafletMap from "./components/LeafletMap";
+import RealLatLng from "./components/RealLatLng";
 
 function App() {
 
@@ -14,8 +15,10 @@ function App() {
   const [error, setError] = useState(null);
 
 
+
   return (
     <>
+      <RealLatLng ininerary={itinerary} />
       <MenuBar />
       <MainMenu 
         itinerary={itinerary} 
@@ -25,10 +28,10 @@ function App() {
         setSubmit={setSubmit}
       />
       {error && <p>Error: {error}</p>}
-      {submit ? <LoadingSpinner /> : null}
+      {/* {submit ? <LoadingSpinner message={message}/> : null}
       <LeafletMap 
         itinerary={itinerary}
-      />
+      /> */}
     </>
   );
 }

@@ -18,6 +18,8 @@
     "react-date-picker": "^10.2.0",
     "react-dom": "^18.2.0",
     "react-leaflet": "^4.2.1",
+    "react-slick": "^0.29.0",
+    "slick-carousel": "^1.8.1",
     "url-loader": "^4.1.1",
     "webpack": "^5.88.1"
   },
