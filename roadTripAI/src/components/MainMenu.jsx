@@ -14,7 +14,7 @@ export default function MainMenu({
   submit,
   setSubmit,
   itinerary,
-  itinerary, setItinerary,
+  setItinerary,
   setError,
 }) {
   const [startLocation, setStartLocation] = useState("");
