@@ -133,11 +133,11 @@ export default function MainMenu({
             //insert the ending location at the end of the itinerary
             parsedContent.push({
               city: endLocation,
-              desc: "Enjoy!",
+              desc: "You've Arrived!",
               lat: coordinates[1].lat,
               lng: coordinates[1].lng,
             });
-
+            
             setItinerary(parsedContent);
             fetchPhotos(itinerary).then((updatedItinerary) => {
               setItinerary(updatedItinerary);
@@ -200,7 +200,7 @@ export default function MainMenu({
       <LeafletMap 
         itinerary={itinerary}
       />
-      <Itinerary stops={itinerary} />
+      <Itinerary itinerary={itinerary} setItinerary={setItinerary} />
   </div>
   );
 }
