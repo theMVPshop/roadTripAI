@@ -18,7 +18,6 @@ function App() {
 
   return (
     <>
-      <RealLatLng ininerary={itinerary} />
       <MenuBar />
       <MainMenu 
         itinerary={itinerary} 

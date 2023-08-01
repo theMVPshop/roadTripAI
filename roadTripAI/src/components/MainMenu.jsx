@@ -6,6 +6,7 @@ import Itinerary from "./Itinerary";
 import LeafletMap from "./LeafletMap";
 import LoadingSpinner from "./LoadingSpinner";
 import { GetLatLng } from "./GetLatLng";
+import RealLatLng from "./RealLatLng";
 
 const secretKey = import.meta.env.VITE_SECRET_KEY;
 
@@ -185,6 +186,7 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, s
           <button className="submitButton" onClick={handleSubmit} disabled={submit}>Submit</button>        
 
       {submit ? <LoadingSpinner message={message}/> : null}
+      <RealLatLng itinerary={itinerary} />
       <LeafletMap 
         itinerary={itinerary}
       />
