@@ -9,12 +9,10 @@ import { fetchPhotos } from "./GetPhotos";
 const secretKey = import.meta.env.VITE_SECRET_KEY;
 
 export default function MainMenu({
-  
   submit,
   setSubmit,
- 
+  itinerary,
   setItinerary,
- 
   setError,
 }) {
   const [startLocation, setStartLocation] = useState("");
@@ -34,10 +32,6 @@ export default function MainMenu({
     return () => {
       abortController.current.abort();
     }
-// callback function cancels fetch if when component unmounts
-    return () => {
-      abortController.current.abort();
-    };
   }, [startLocation, startDate, endLocation, endDate]);
 
   const url = "https://api.openai.com/v1/chat/completions";

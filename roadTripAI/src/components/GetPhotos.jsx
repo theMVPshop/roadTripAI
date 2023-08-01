@@ -13,7 +13,6 @@ export async function fetchPhotos(itinerary) {
     .then((data)=> {
         if (data && data.photos && data.photos[0]) {
         image = data.photos[0].image.web
-    
         itinerary[i].image = image
 
         } else {
