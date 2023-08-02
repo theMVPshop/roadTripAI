@@ -16,7 +16,8 @@ const RealLatLng = (props) => {
                     arr.push(data[0].lat)
                     })
                 })
-            setStops(arr)}
+            setStops(arr)
+            }
     }, [itinerary])
 
     return (
