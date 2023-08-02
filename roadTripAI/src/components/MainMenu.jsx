@@ -6,7 +6,7 @@ import Itinerary from "./Itinerary";
 import LeafletMap from "./LeafletMap";
 import LoadingSpinner from "./LoadingSpinner";
 import { GetLatLng } from "./GetLatLng";
-
+import logo from '../assets/images/logo.png'
 const secretKey = import.meta.env.VITE_SECRET_KEY;
 
 export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, setError}) {
@@ -146,10 +146,22 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, s
   };
 
   return (
-    <div className="mainMenu">        
+    
+    <div className="mainMenu"> 
+    <div className="menuHeader">
+    {/* <img className='logo' src={logo}/> */}
+    <h1>Plan Your Next Road Trip</h1>
+    {/* <h2>AI will show you stops along the way.</h2> */}
+    </div>
+      
+    <LeafletMap 
+        itinerary={itinerary}
+      />   
+        <Itinerary stops={itinerary} />
         <div className="locationContainer">
+          
         <section>
-          <h2>Start Location:</h2>
+          <h2>Depart</h2>
           <PlacesAutoComplete
             location={startLocation}
             setLocation={setStartLocation}
@@ -157,18 +169,15 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, s
         </section>
 
         <section>
-          <h2>End Location:</h2>
+          <h2>Arrive</h2>
           <PlacesAutoComplete
             location={endLocation}
             setLocation={setEndLocation}
           />
         </section>
-        </div>
-        
-
-        <div className="dateContainer">
+       
           <section>
-            <h2>Start Date:</h2>
+            <h2>Depart Date</h2>
             <DatePicker
             onChange={setStartDate} 
             value={startDate}
@@ -176,19 +185,18 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, s
           </section>
 
           <section>
-            <h2>End Date:</h2>
+            <h2>Arrive Date</h2>
             <DatePicker
             onChange={setEndDate} 
             value={endDate}/>
           </section>
         </div>
+        <div className="subbut">
           <button className="submitButton" onClick={handleSubmit} disabled={submit}>Submit</button>        
-
+          </div>
       {submit ? <LoadingSpinner message={message}/> : null}
-      <LeafletMap 
-        itinerary={itinerary}
-      />
-      <Itinerary stops={itinerary} />
+      
+      
   </div>
   );
 }
