@@ -11,7 +11,6 @@ const Itinerary = ({stops}) => {
 
     useEffect(() => {
         setNewItinerary(stops);
-        console.log(stops)
     }, [stops])
 
 

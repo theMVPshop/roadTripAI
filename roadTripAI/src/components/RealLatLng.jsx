@@ -10,12 +10,10 @@ const RealLatLng = (props) => {
             return fetch(`https://geocode.maps.co/search?q=${stop.city}`)
               .then(response => response.json())
               .then(data => {
-                console.log(`data for ${stop}:`);
                 const obj = {
                   lat: data[0].lat,
                   lng: data[0].lon,
                 };
-                console.log(obj);
                 return obj;
               })
               .catch(err => console.log(err));
@@ -23,7 +21,6 @@ const RealLatLng = (props) => {
         if (itinerary) {
             Promise.all(fetchPromises)
             .then(arr => {
-              console.log(arr);
               setStops(arr);
             });
         }      
@@ -33,7 +30,6 @@ const RealLatLng = (props) => {
         <ul>
             <li>This is the lat of stops!</li>
             {stops.map((stop)=> {
-                console.log(stop)
                 return (
                     <li>
                         {stop.lat}

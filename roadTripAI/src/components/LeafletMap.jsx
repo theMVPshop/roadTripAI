@@ -1,7 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet'
 import {useState, useEffect} from 'react';
 
-const LeafletMap = ({itinerary}) => {
+const LeafletMap = ({itinerary, trueLatLng}) => {
 
     // MapContainer takes a prop called center. This should be an array with 2 entries, a lat and lng.
     // Default is the geographic center of the US
@@ -22,9 +22,9 @@ const LeafletMap = ({itinerary}) => {
     useEffect(()=> {
      if( itinerary && itinerary.length ) {
       setLineOfTravel(itinerary.map(stop => [stop.lat, stop.lng]));
-      console.log(itinerary)
      }
     //  else setLineOfTravel[], so the line will disappear
+     else setLineOfTravel([])
     }, [itinerary])
 
     // The following code changes the default zoom of the MapContainer
@@ -59,7 +59,9 @@ const LeafletMap = ({itinerary}) => {
             </Marker>
           )
         })}
-        <Polyline pathOptions={{ color: 'lime'} } positions={lineOfTravel} />
+        {trueLatLng 
+        ? <Polyline pathOptions={{ color: 'lime'} } positions={lineOfTravel} /> 
+        : <Polyline pathOptions={{ color: 'pink'} } positions={lineOfTravel} />}
 
       </MapContainer>
       </div>

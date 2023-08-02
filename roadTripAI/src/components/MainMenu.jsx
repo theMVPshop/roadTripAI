@@ -6,7 +6,6 @@ import Itinerary from "./Itinerary";
 import LeafletMap from "./LeafletMap";
 import LoadingSpinner from "./LoadingSpinner";
 import { GetLatLng } from "./GetLatLng";
-import RealLatLng from "./RealLatLng";
 
 const secretKey = import.meta.env.VITE_SECRET_KEY;
 
@@ -17,12 +16,16 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, s
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
   const [message, setMessage] = useState("")
+  const [startLatLng, setStartLatLng] = useState(true)
+  const [trueLatLng, setTrueLatLng] = useState(true)
   let abortController = useRef(new AbortController());
 
   // re-enables button and cancels fetch if user changes data
   useEffect(()=> {
     if(submit) {
       setSubmit(false)
+      setTrueLatLng(true)
+      setStartLatLng(true)
       console.log("Aborting...")
       abortController.current.abort()
     }
@@ -31,6 +34,36 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, s
       abortController.current.abort();
     }
   }, [startLocation, startDate, endLocation, endDate])
+
+  // This useEffect goes through the itinerary and replaces lat & lng with correct coordinates
+  useEffect(()=> {
+    console.log("New itinerary: ")
+    console.log(itinerary)
+    const fetchPromises = itinerary.map(stop => {
+        return fetch(`https://geocode.maps.co/search?q=${stop.city}`)
+          .then(response => response.json())
+          .then(data => {
+            const obj = {
+              lat: data[0].lat,
+              lng: data[0].lon,
+            };
+            return obj;
+          })
+          .catch(err => console.log(err));
+      });
+    if (startLatLng && !trueLatLng && !submit) {
+        Promise.all(fetchPromises)
+        .then(arr => {
+          let copy = itinerary
+          for (let i = 0; i < copy.length; i++) {
+            copy[i].lat = arr[i].lat
+            copy[i].lng = arr[i].lng
+          }
+          setItinerary(copy)
+          setTrueLatLng(true)
+        });
+    }      
+}, [itinerary])
   
   const url = "https://api.openai.com/v1/chat/completions";
   const prompt = `I'm planning a roadtrip, leaving on ${startDate} from ${startLocation} and arriving on ${endDate} at ${endLocation}. I want to drive a fairly direct route. Make me an itinerary of interesting stops along the way. I want to go to one interesting place per day, and on the first day, the interesting place should not be in my starting city. Each interesting place should be at least 2 hours but no more than 8 hours away from the previous interesting place. Give me an array of objects, each object representing a day of the road trip. I want to know the date as YYYY-MM-DD (date), longitude (lng), latitude (lat), name of the stop (name), a description of the stop (desc), the city closest to the stop as 'city, state abbreviation' (city), the drive time from the previous stop as a decimal (time), and the average historical temperature for the stop on the date we will arrive (temp). Please do not provide any additional text outside of the array`;
@@ -49,6 +82,9 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, s
     setSubmit(true)
     //reset itinerary to blank when new one is being fetched
     setItinerary([]);
+    // sets reminder that lat/lng has not been verified
+    setTrueLatLng(false)
+    setStartLatLng(false)
 
     //clear any errors after new fetch made
     setError(null);
@@ -73,6 +109,7 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, s
             lat: coordinates[1].lat,
             lng: coordinates[1].lng
         }])
+        setStartLatLng(true)
         return fetchItinerary(coordinates) 
       }).catch((error) => {
         setError(error.toString())
@@ -186,11 +223,10 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, s
           <button className="submitButton" onClick={handleSubmit} disabled={submit}>Submit</button>        
 
       {submit ? <LoadingSpinner message={message}/> : null}
-      <RealLatLng itinerary={itinerary} />
       <LeafletMap 
         itinerary={itinerary}
       />
-      <Itinerary stops={itinerary} />
+      <Itinerary stops={itinerary} trueLatLng={trueLatLng} />
   </div>
   );
 }
