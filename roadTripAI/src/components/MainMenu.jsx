@@ -168,7 +168,6 @@ export default function MainMenu({
   }, [itinerary]);
 
   return (
-
     
     <div className="mainMenu"> 
     <div className="menuHeader">
@@ -183,10 +182,6 @@ export default function MainMenu({
         <Itinerary stops={itinerary} />
         <div className="locationContainer">
           
-
-    <div className="mainMenu">
-      <div className="locationContainer">
-
         <section>
           <h2>Depart</h2>
           <PlacesAutoComplete
@@ -202,23 +197,14 @@ export default function MainMenu({
             setLocation={setEndLocation}
           />
         </section>
-
+       
           <section>
             <h2>Depart Date</h2>
             <DatePicker
             onChange={setStartDate} 
-
-      </div>
-
-      <div className="dateContainer">
-        <section>
-          <h2>Start Date:</h2>
-          <DatePicker
-            onChange={setStartDate}
-
             value={startDate}
-          />
-        </section>
+            />
+          </section>
 
           <section>
             <h2>Arrive Date</h2>
