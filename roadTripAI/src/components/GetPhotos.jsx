@@ -30,22 +30,34 @@
 //     return itinerary
 // }
 const secretKey = import.meta.env.UNSPLASH_SECRET_KEY;
+const accessKey = import.meta.env.UNSPLASH_ACCESS_KEY;
+
 export async function fetchPhotos(itinerary) {
-    const url = "https://api.unsplash.com/"
+
 
         let image
-        for (let i=0; i<itinerary.length-1; i++){
+        for (let i=0; i<itinerary.length; i++){
             let cityName =itinerary[i].city;
             let commaIndex = cityName.indexOf(',')
             cityName = cityName.substring(0, commaIndex).replaceAll(' ', '-').toLowerCase();
     
-        fetch(`https://api.teleport.org/api/urban_areas/slug:${cityName}/images/`)
+            fetch(`https://api.unsplash.com/photos/random?query=${cityName}`, {
+                headers: {
+                    Authorization: `Client-ID 3333####`
+                }
+            })
+            
+           
         .then((response)=> {
+            if(!response.ok) {
+                throw new Error("HTTP error " + response.status);
+            }
             return response.json()
         })
         .then((data)=> {
-            if (data && data.photos && data.photos[0]) {
-            image = data.photos[0].image.web
+            
+            if (data && data.urls) {
+            image = data.urls.thumb
             itinerary[i].image = image
     
             } else {
