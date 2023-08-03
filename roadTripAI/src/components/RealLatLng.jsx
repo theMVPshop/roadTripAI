@@ -28,7 +28,6 @@ const RealLatLng = (props) => {
 
     return (
         <ul>
-            <li>This is the lat of stops!</li>
             {stops.map((stop)=> {
                 return (
                     <li>

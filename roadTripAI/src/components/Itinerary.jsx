@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import itineraryDummyData from '../assets/sampleItineraryData';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -18,7 +17,7 @@ const carouselItems = stops.map(item => (
     <div key={item.name}>
         <h3>{item.name}</h3>
         <p>{item.desc}</p>
-        <img src={item.image}/>
+        <img src={item.image} alt={item.name}/>
         
     </div>
 ));
