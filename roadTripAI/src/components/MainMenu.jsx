@@ -39,6 +39,7 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, e
   // This useEffect goes through the itinerary and replaces lat & lng with correct coordinates
   // ...assuming the first returned result is correct. 1% of the time, it isn't.
   useEffect(()=> {
+    console.log(itinerary)
     const fetchPromises = itinerary.map(stop => {
         return fetch(`https://geocode.maps.co/search?q=${stop.city}`)
           .then(response => response.json())
@@ -101,13 +102,13 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, e
         setItinerary([
           {
             city: startLocation,
-            desc: "Start here",
+            desc: "This is your starting location. Time to hit the road!",
             lat: coordinates[0].lat,
             lng: coordinates[0].lng,
           },
           {
             city: endLocation,
-            desc: "You've arrived!",
+            desc: `Welcome to ${endLocation.slice(0, -5)}! Hope you enjoyed your roadtrip!`,
             lat: coordinates[1].lat,
             lng: coordinates[1].lng
         }])
@@ -170,16 +171,16 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, e
             parsedContent.unshift({
               name: startLocation,
               city: startLocation,
-              desc: "Start here",
+              desc: "This is your starting location. Time to hit the road!",
               lat: coordinates[0].lat,
               lng: coordinates[0].lng,
             });
 
             //insert the ending location at the end of the itinerary
             parsedContent.push({
-              name: endLocation,
-              city: endLocation,
-              desc: "You've Arrived!",
+              name: endLocation.slice(0, -5),
+              city: endLocation.slice(0, -5),
+              desc: `Welcome to ${endLocation.slice(0, -5)}! Hope you enjoyed your roadtrip!`,
               lat: coordinates[1].lat,
               lng: coordinates[1].lng,
             });
@@ -214,6 +215,9 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, e
         itinerary={itinerary}
         trueLatLng={trueLatLng} 
       />
+      
+      <LoadingSpinner message={message} submit={submit}/>
+      {error && <p>Error: {error}</p>}
       <Itinerary stops={itinerary} />
         <div className="locationContainer">
           
@@ -251,8 +255,6 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, e
         <div className="subbut">
           <button className="submitButton" onClick={handleSubmit} disabled={submit}>Submit</button>        
 
-      <LoadingSpinner message={message} submit={submit}/>
-      {error && <p>Error: {error}</p>}
 
           </div>
   </div>
