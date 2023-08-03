@@ -4,17 +4,13 @@ export async function fetchPhotos(fetchedItinerary) {
 
   const requests = fetchedItinerary.map((stop, i) => {
     let attraction = stop.name;
-
+    
     return fetch(`https://api.unsplash.com/photos/random?query=${attraction}`, {
       headers: {
         Authorization: `Client-ID ${accessKey}`,
       },
     })
       .then((response) => {
-        if (!response.ok) {
-            
-        //   throw new Error("HTTP error " + response.status);
-        }
         return response.json();
       })
       .then((data) => {
