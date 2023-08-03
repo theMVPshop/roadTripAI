@@ -163,10 +163,22 @@ export default function MainMenu({
 
 
   return (
-    <div className="mainMenu">
-      <div className="locationContainer">
+    
+    <div className="mainMenu"> 
+    <div className="menuHeader">
+    {/* <img className='logo' src={logo}/> */}
+    <h1>Plan Your Next Road Trip</h1>
+    {/* <h2>AI will show you stops along the way.</h2> */}
+    </div>
+      
+    <LeafletMap 
+        itinerary={itinerary}
+      />   
+        <Itinerary stops={itinerary} />
+        <div className="locationContainer">
+          
         <section>
-          <h2>Start Location:</h2>
+          <h2>Depart</h2>
           <PlacesAutoComplete
             location={startLocation}
             setLocation={setStartLocation}
@@ -174,42 +186,34 @@ export default function MainMenu({
         </section>
 
         <section>
-          <h2>End Location:</h2>
+          <h2>Arrive</h2>
           <PlacesAutoComplete
             location={endLocation}
             setLocation={setEndLocation}
           />
         </section>
-      </div>
-
-      <div className="dateContainer">
-        <section>
-          <h2>Start Date:</h2>
-          <DatePicker
-            onChange={setStartDate}
+       
+          <section>
+            <h2>Depart Date</h2>
+            <DatePicker
+            onChange={setStartDate} 
             value={startDate}
-          />
-        </section>
+            />
+          </section>
 
-        <section>
-          <h2>End Date:</h2>
-          <DatePicker
-            onChange={setEndDate}
-            value={endDate}
-          />
-        </section>
-      </div>
-      <button
-        className="submitButton"
-        onClick={handleSubmit}
-        disabled={submit}
-      >
-        Submit
-      </button>
-
-      {submit ? <LoadingSpinner message={message} /> : null}
-      <LeafletMap itinerary={itinerary} />
-      <Itinerary stops={itinerary} />
-    </div>
+          <section>
+            <h2>Arrive Date</h2>
+            <DatePicker
+            onChange={setEndDate} 
+            value={endDate}/>
+          </section>
+        </div>
+        <div className="subbut">
+          <button className="submitButton" onClick={handleSubmit} disabled={submit}>Submit</button>        
+          </div>
+      {submit ? <LoadingSpinner message={message}/> : null}
+      
+      
+  </div>
   );
 }
