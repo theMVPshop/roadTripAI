@@ -19,8 +19,7 @@
 //             console.log(`No image found for ${cityName}`)
 //             itinerary[i].image = null
 //         }
-    
-        
+
 //     }).catch((error)=> {
 //         console.log(error.toString())
 //         return null
@@ -32,45 +31,41 @@
 const secretKey = import.meta.env.UNSPLASH_SECRET_KEY;
 const accessKey = import.meta.env.UNSPLASH_ACCESS_KEY;
 
-export async function fetchPhotos(itinerary) {
+export async function fetchPhotos(fetchedItinerary) {
 
+  const requests = fetchedItinerary.map((stop, i) => {
+    let cityName = stop.city;
+    let commaIndex = cityName.indexOf(",");
+    cityName = cityName
+      .substring(0, commaIndex)
+      .replaceAll(" ", "-")
+      .toLowerCase();
 
-        let image
-        for (let i=0; i<itinerary.length; i++){
-            let cityName =itinerary[i].city;
-            let commaIndex = cityName.indexOf(',')
-            cityName = cityName.substring(0, commaIndex).replaceAll(' ', '-').toLowerCase();
-    
-            fetch(`https://api.unsplash.com/photos/random?query=${cityName}`, {
-                headers: {
-                    Authorization: `Client-ID 3333####`
-                }
-            })
-            
-           
-        .then((response)=> {
-            if(!response.ok) {
-                throw new Error("HTTP error " + response.status);
-            }
-            return response.json()
-        })
-        .then((data)=> {
-            
-            if (data && data.urls) {
-            image = data.urls.thumb
-            itinerary[i].image = image
-    
-            } else {
-                console.log(`No image found for ${cityName}`)
-                itinerary[i].image = null
-            }
-        
-            
-        }).catch((error)=> {
-            console.log(error.toString())
-            return null
-        })
+    return fetch(`https://api.unsplash.com/photos/random?query=${cityName}`, {
+      headers: {
+        Authorization: `Client-ID XXXXXX`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("HTTP error " + response.status);
         }
-        console.log(itinerary)
-        return itinerary
-    }
+        return response.json();
+      })
+      .then((data) => {
+        if (data && data.urls) {
+          stop.image = data.urls.thumb;
+        } else {
+          console.log(`No image found for ${cityName}`);
+          stop.image = null;
+        }
+      })
+      .catch((error) => {
+        console.log(error.toString());
+        stop.image = null;
+      });
+  });
+  await Promise.all(requests);
+
+  return itinerary;
+}

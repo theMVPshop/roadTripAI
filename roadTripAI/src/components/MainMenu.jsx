@@ -21,20 +21,20 @@ export default function MainMenu({
   const [endLocation, setEndLocation] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [message, setMessage] = useState("")
+  const [message, setMessage] = useState("");
   let abortController = useRef(new AbortController());
 
   // re-enables button and cancels fetch if user changes data
-  useEffect(()=> {
-    if(submit) {
-      setSubmit(false)
-      console.log("Aborting...")
-      abortController.current.abort()
+  useEffect(() => {
+    if (submit) {
+      setSubmit(false);
+      console.log("Aborting...");
+      abortController.current.abort();
     }
     // callback function cancels fetch if when component unmounts
     return () => {
       abortController.current.abort();
-    }
+    };
   }, [startLocation, startDate, endLocation, endDate]);
 
   const url = "https://api.openai.com/v1/chat/completions";
@@ -57,14 +57,13 @@ export default function MainMenu({
     //clear any errors after new fetch made
     setError(null);
 
-    setMessage("Calculating start and end points...")
+    setMessage("Calculating start and end points...");
 
-    abortController.current = new AbortController()
-    
+    abortController.current = new AbortController();
 
     GetLatLng(startLocation, endLocation, abortController.current)
-      .then((coordinates)=> {
-        setMessage("Discovering points of interest along the way...")
+      .then((coordinates) => {
+        setMessage("Discovering points of interest along the way...");
         setItinerary([
           {
             city: startLocation,
@@ -81,14 +80,20 @@ export default function MainMenu({
         ]);
         return fetchItinerary(coordinates);
       })
+      .then((fetchedItinerary) => {
+        return fetchPhotos(fetchedItinerary);
+      })
+      .then((updatedItinerary) => {
+        setItinerary(updatedItinerary);
+        setSubmit(false);
+      })
       .catch((error) => {
         setError(error.toString());
       });
   };
 
   const fetchItinerary = async (coordinates) => {
-    
-    fetch(url, {
+   return fetch(url, {
       method: "POST",
       signal: abortController.current.signal,
       headers: {
@@ -148,24 +153,14 @@ export default function MainMenu({
           setError(err.toString());
           setSubmit(false);
         }
+        return parsedContent;
       })
       .catch((error) => {
         setError(error.toString());
         setSubmit(false);
-      })
+      });
   };
 
-  useEffect(() => {
-    if (itinerary.length > 0) {
-      fetchPhotos(itinerary)
-        .then((updatedItinerary) => {
-          setItinerary(updatedItinerary);
-        })
-        .catch((err) => {
-          setError(err.toString());
-        });
-    }
-  }, [itinerary]);
 
   return (
     <div className="mainMenu">
@@ -196,20 +191,25 @@ export default function MainMenu({
           />
         </section>
 
-          <section>
-            <h2>End Date:</h2>
-            <DatePicker
-            onChange={setEndDate} 
-            value={endDate}/>
-          </section>
-        </div>
-          <button className="submitButton" onClick={handleSubmit} disabled={submit}>Submit</button>        
+        <section>
+          <h2>End Date:</h2>
+          <DatePicker
+            onChange={setEndDate}
+            value={endDate}
+          />
+        </section>
+      </div>
+      <button
+        className="submitButton"
+        onClick={handleSubmit}
+        disabled={submit}
+      >
+        Submit
+      </button>
 
-      {submit ? <LoadingSpinner message={message}/> : null}
-      <LeafletMap 
-        itinerary={itinerary}
-      />
+      {submit ? <LoadingSpinner message={message} /> : null}
+      <LeafletMap itinerary={itinerary} />
       <Itinerary stops={itinerary} />
-  </div>
+    </div>
   );
 }
