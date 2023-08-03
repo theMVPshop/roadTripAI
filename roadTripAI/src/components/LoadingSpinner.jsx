@@ -1,10 +1,13 @@
 
 
-const LoadingSpinner = ({message}) => {
+const LoadingSpinner = ({message, submit}) => {
 
     return (
         <>
-            <div className="spin"/>
+            {submit
+            ? <div className="spin"/>
+            : null
+            }
             <h3>{message}</h3>
         </>
     )

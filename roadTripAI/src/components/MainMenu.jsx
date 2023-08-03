@@ -10,33 +10,64 @@ import { fetchPhotos } from "./GetPhotos";
 
 const secretKey = import.meta.env.VITE_SECRET_KEY;
 
-export default function MainMenu({
-  submit,
-  setSubmit,
-  itinerary,
-  setItinerary,
-  setError,
-}) {
+export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, error, setError}) {
+
   const [startLocation, setStartLocation] = useState("");
   const [endLocation, setEndLocation] = useState("");
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const [message, setMessage] = useState("");
+  const [startDate, setStartDate] = useState(new Date())
+  const [endDate, setEndDate] = useState(new Date())
+  const [message, setMessage] = useState("")
+  const [startLatLng, setStartLatLng] = useState(true)
+  const [trueLatLng, setTrueLatLng] = useState(true)
   let abortController = useRef(new AbortController());
 
   // re-enables button and cancels fetch if user changes data
-  useEffect(() => {
-    if (submit) {
-      setSubmit(false);
-      console.log("Aborting...");
-      abortController.current.abort();
+  useEffect(()=> {
+    if(submit) {
+      setSubmit(false)
+      setTrueLatLng(true)
+      setStartLatLng(true)
+      setMessage("Looks like you changed one of your inputs. Click submit again when you're ready.")
+      abortController.current.abort()
     }
     // callback function cancels fetch if when component unmounts
     return () => {
       abortController.current.abort();
-    };
-  }, [startLocation, startDate, endLocation, endDate]);
+    }
+  }, [startLocation, startDate, endLocation, endDate])
 
+  // This useEffect goes through the itinerary and replaces lat & lng with correct coordinates
+  // ...assuming the first returned result is correct. 1% of the time, it isn't.
+  useEffect(()=> {
+    const fetchPromises = itinerary.map(stop => {
+        return fetch(`https://geocode.maps.co/search?q=${stop.city}`)
+          .then(response => response.json())
+          .then(data => {
+            const obj = {
+              lat: data[0].lat,
+              lng: data[0].lon,
+            };
+            return obj;
+          })
+          .catch(err => {
+            setError("Oh no! Looks like we couldn't verify the coordinates for each city. Map markers might be a little off.")
+          });
+      });
+    if (startLatLng && !trueLatLng && !submit) {
+        Promise.all(fetchPromises)
+        .then(arr => {
+          let copy = itinerary
+          for (let i = 0; i < copy.length; i++) {
+            copy[i].lat = arr[i].lat
+            copy[i].lng = arr[i].lng
+          }
+          setItinerary(copy)
+          setTrueLatLng(true)
+          setMessage("Here's your AI generated roadtrip!")
+        });
+    }      
+}, [itinerary])
+  
   const url = "https://api.openai.com/v1/chat/completions";
   const prompt = `I'm planning a roadtrip, leaving on ${startDate} from ${startLocation} and arriving on ${endDate} at ${endLocation}. I want to drive a fairly direct route. Make me an itinerary of interesting stops along the way. I want to go to one interesting place per day, and on the first day, the interesting place should not be in my starting city. Each interesting place should be at least 2 hours but no more than 8 hours away from the previous interesting place. Give me an array of objects, each object representing a day of the road trip. I want to know the date as YYYY-MM-DD (date), longitude (lng), latitude (lat), name of the stop (name), a description of the stop (desc), the city closest to the stop as 'city, state abbreviation' (city), the drive time from the previous stop as a decimal (time), and the average historical temperature for the stop on the date we will arrive (temp). Please do not provide any additional text outside of the array`;
 
@@ -53,6 +84,9 @@ export default function MainMenu({
     setSubmit(true);
     //reset itinerary to blank when new one is being fetched
     setItinerary([]);
+    // sets reminder that lat/lng has not been verified
+    setTrueLatLng(false)
+    setStartLatLng(false)
 
     //clear any errors after new fetch made
     setError(null);
@@ -75,10 +109,14 @@ export default function MainMenu({
             city: endLocation,
             desc: "You've arrived!",
             lat: coordinates[1].lat,
-            lng: coordinates[1].lng,
-          },
-        ]);
-        return fetchItinerary(coordinates);
+            lng: coordinates[1].lng
+        }])
+        setStartLatLng(true)
+        return fetchItinerary(coordinates) 
+      }).catch((error) => {
+        setError(error.toString())
+        setMessage("Hmm... Looks like the AI is being finicky.  Try hitting submit again.")
+        setSubmit(false)
       })
       .then((fetchedItinerary) => {
         return fetchPhotos(fetchedItinerary);
@@ -147,6 +185,7 @@ export default function MainMenu({
             });
             
             setItinerary(parsedContent);
+            setMessage("Verifying location data...")
             setSubmit(false);
           }
         } catch (err) {
@@ -171,10 +210,11 @@ export default function MainMenu({
     {/* <h2>AI will show you stops along the way.</h2> */}
     </div>
       
-    <LeafletMap 
+     <LeafletMap 
         itinerary={itinerary}
-      />   
-        <Itinerary stops={itinerary} />
+        trueLatLng={trueLatLng} 
+      />
+      <Itinerary stops={itinerary} />
         <div className="locationContainer">
           
         <section>
@@ -210,10 +250,11 @@ export default function MainMenu({
         </div>
         <div className="subbut">
           <button className="submitButton" onClick={handleSubmit} disabled={submit}>Submit</button>        
+
+      <LoadingSpinner message={message} submit={submit}/>
+      {error && <p>Error: {error}</p>}
+
           </div>
-      {submit ? <LoadingSpinner message={message}/> : null}
-      
-      
   </div>
   );
 }

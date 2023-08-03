@@ -6,18 +6,24 @@ const RealLatLng = (props) => {
     const [stops, setStops] = useState([])
 
     useEffect(()=> {
-        console.log("Heloo!")
-        console.log(itinerary)
-        if (itinerary) {let arr = []
-            itinerary.forEach((stop)=> {
-                fetch(`https://geocode.maps.co/search?q=${stop.city}`)
-                .then(response => response.json())
-                .then(data => {
-                    arr.push(data[0].lat)
-                    })
-                })
-            setStops(arr)
-            }
+        const fetchPromises = itinerary.map(stop => {
+            return fetch(`https://geocode.maps.co/search?q=${stop.city}`)
+              .then(response => response.json())
+              .then(data => {
+                const obj = {
+                  lat: data[0].lat,
+                  lng: data[0].lon,
+                };
+                return obj;
+              })
+              .catch(err => console.log(err));
+          });
+        if (itinerary) {
+            Promise.all(fetchPromises)
+            .then(arr => {
+              setStops(arr);
+            });
+        }      
     }, [itinerary])
 
     return (
@@ -26,7 +32,7 @@ const RealLatLng = (props) => {
             {stops.map((stop)=> {
                 return (
                     <li>
-                        {stop}
+                        {stop.lat}
                     </li>
                 )
             })}

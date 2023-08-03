@@ -18,16 +18,16 @@ function App() {
 
   return (
     <>
-      <RealLatLng ininerary={itinerary} />
       <MenuBar />
       <MainMenu 
         itinerary={itinerary} 
         setItinerary={setItinerary}
+        error={error}
         setError={setError}
         submit={submit}
         setSubmit={setSubmit}
       />
-      {error && <p>Error: {error}</p>}
+
       {/* {submit ? <LoadingSpinner message={message}/> : null}
       <LeafletMap 
         itinerary={itinerary}
