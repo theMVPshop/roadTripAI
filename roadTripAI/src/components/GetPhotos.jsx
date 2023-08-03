@@ -29,7 +29,7 @@
 //     return itinerary
 // }
 const secretKey = import.meta.env.UNSPLASH_SECRET_KEY;
-const accessKey = import.meta.env.UNSPLASH_ACCESS_KEY;
+const accessKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
 
 export async function fetchPhotos(fetchedItinerary) {
 
@@ -43,7 +43,7 @@ export async function fetchPhotos(fetchedItinerary) {
 
     return fetch(`https://api.unsplash.com/photos/random?query=${cityName}`, {
       headers: {
-        Authorization: `Client-ID XXXXXX`,
+        Authorization: `Client-ID ${accessKey}`,
       },
     })
       .then((response) => {
@@ -67,5 +67,5 @@ export async function fetchPhotos(fetchedItinerary) {
   });
   await Promise.all(requests);
 
-  return itinerary;
+  return fetchedItinerary;
 }
