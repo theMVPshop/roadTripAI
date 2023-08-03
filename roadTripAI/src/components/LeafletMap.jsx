@@ -25,7 +25,9 @@ const LeafletMap = ({itinerary, trueLatLng}) => {
      }
     //  else setLineOfTravel[], so the line will disappear
      else setLineOfTravel([])
-    }, [itinerary])
+    }, [itinerary, trueLatLng])
+
+   
 
     // The following code changes the default zoom of the MapContainer
     // depending on the size of the user's screen

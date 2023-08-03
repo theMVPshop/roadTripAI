@@ -9,7 +9,7 @@ import { GetLatLng } from "./GetLatLng";
 
 const secretKey = import.meta.env.VITE_SECRET_KEY;
 
-export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, setError}) {
+export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, error, setError}) {
 
   const [startLocation, setStartLocation] = useState("");
   const [endLocation, setEndLocation] = useState("");
@@ -26,7 +26,7 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, s
       setSubmit(false)
       setTrueLatLng(true)
       setStartLatLng(true)
-      console.log("Aborting...")
+      setMessage("Looks like you changed one of your inputs. Click submit again when you're ready.")
       abortController.current.abort()
     }
     // callback function cancels fetch if when component unmounts
@@ -36,9 +36,8 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, s
   }, [startLocation, startDate, endLocation, endDate])
 
   // This useEffect goes through the itinerary and replaces lat & lng with correct coordinates
+  // ...assuming the first returned result is correct. 1% of the time, it isn't.
   useEffect(()=> {
-    console.log("New itinerary: ")
-    console.log(itinerary)
     const fetchPromises = itinerary.map(stop => {
         return fetch(`https://geocode.maps.co/search?q=${stop.city}`)
           .then(response => response.json())
@@ -49,7 +48,9 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, s
             };
             return obj;
           })
-          .catch(err => console.log(err));
+          .catch(err => {
+            setError("Oh no! Looks like we couldn't verify the coordinates for each city. Map markers might be a little off.")
+          });
       });
     if (startLatLng && !trueLatLng && !submit) {
         Promise.all(fetchPromises)
@@ -61,6 +62,7 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, s
           }
           setItinerary(copy)
           setTrueLatLng(true)
+          setMessage("Here's your AI generated roadtrip!")
         });
     }      
 }, [itinerary])
@@ -113,6 +115,8 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, s
         return fetchItinerary(coordinates) 
       }).catch((error) => {
         setError(error.toString())
+        setMessage("Hmm... Looks like the AI is being finicky.  Try hitting submit again.")
+        setSubmit(false)
       })
   }
 
@@ -170,6 +174,7 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, s
           });
 
             setItinerary(parsedContent);
+            setMessage("Verifying location data...")
             setSubmit(false);
           }
         } catch (err) {
@@ -222,11 +227,13 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, s
         </div>
           <button className="submitButton" onClick={handleSubmit} disabled={submit}>Submit</button>        
 
-      {submit ? <LoadingSpinner message={message}/> : null}
+      <LoadingSpinner message={message} submit={submit}/>
+      {error && <p>Error: {error}</p>}
       <LeafletMap 
         itinerary={itinerary}
+        trueLatLng={trueLatLng} 
       />
-      <Itinerary stops={itinerary} trueLatLng={trueLatLng} />
+      <Itinerary stops={itinerary} />
   </div>
   );
 }
