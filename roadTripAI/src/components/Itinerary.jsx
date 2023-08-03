@@ -14,10 +14,12 @@ const Itinerary = ({stops}) => {
     }, [stops])
 
 
-const carouselItems = newItinerary.map(item => (
+const carouselItems = stops.map(item => (
     <div key={item.name}>
         <h3>{item.name}</h3>
         <p>{item.desc}</p>
+        <img src={item.image}/>
+        
     </div>
 ));
 const settings = {

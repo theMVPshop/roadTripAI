@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import PlacesAutoComplete from "./PlacesAutocomplete";
-import DatePicker from 'react-date-picker'
-import 'react-calendar/dist/Calendar.css';
+import DatePicker from "react-date-picker";
+import "react-calendar/dist/Calendar.css";
 import Itinerary from "./Itinerary";
 import LeafletMap from "./LeafletMap";
 import LoadingSpinner from "./LoadingSpinner";
 import { GetLatLng } from "./GetLatLng";
+import { fetchPhotos } from "./GetPhotos";
 
 const secretKey = import.meta.env.VITE_SECRET_KEY;
 
@@ -69,19 +70,18 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, e
   
   const url = "https://api.openai.com/v1/chat/completions";
   const prompt = `I'm planning a roadtrip, leaving on ${startDate} from ${startLocation} and arriving on ${endDate} at ${endLocation}. I want to drive a fairly direct route. Make me an itinerary of interesting stops along the way. I want to go to one interesting place per day, and on the first day, the interesting place should not be in my starting city. Each interesting place should be at least 2 hours but no more than 8 hours away from the previous interesting place. Give me an array of objects, each object representing a day of the road trip. I want to know the date as YYYY-MM-DD (date), longitude (lng), latitude (lat), name of the stop (name), a description of the stop (desc), the city closest to the stop as 'city, state abbreviation' (city), the drive time from the previous stop as a decimal (time), and the average historical temperature for the stop on the date we will arrive (temp). Please do not provide any additional text outside of the array`;
-  
 
   function formatDate(date) {
     // The current start dates are Date() objects, and we need to convert them to the dd-mm-yyyy format.
     const year = date.getFullYear(); // Get full year
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Get month with leading zero if necessary
-    const day = String(date.getDate()).padStart(2, '0'); // Get day with leading zero if necessary
-  
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Get month with leading zero if necessary
+    const day = String(date.getDate()).padStart(2, "0"); // Get day with leading zero if necessary
+
     return `${day}-${month}-${year}`; // Format the date as "dd-mm-yyyy"
   }
 
   const handleSubmit = () => {
-    setSubmit(true)
+    setSubmit(true);
     //reset itinerary to blank when new one is being fetched
     setItinerary([]);
     // sets reminder that lat/lng has not been verified
@@ -91,13 +91,13 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, e
     //clear any errors after new fetch made
     setError(null);
 
-    setMessage("Calculating start and end points...")
+    setMessage("Calculating start and end points...");
 
-    abortController.current = new AbortController()
-   
+    abortController.current = new AbortController();
+
     GetLatLng(startLocation, endLocation, abortController.current)
-      .then((coordinates)=> {
-        setMessage("Discovering points of interest along the way...")
+      .then((coordinates) => {
+        setMessage("Discovering points of interest along the way...");
         setItinerary([
           {
             city: startLocation,
@@ -118,11 +118,20 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, e
         setMessage("Hmm... Looks like the AI is being finicky.  Try hitting submit again.")
         setSubmit(false)
       })
-  }
+      .then((fetchedItinerary) => {
+        return fetchPhotos(fetchedItinerary);
+      })
+      .then((updatedItinerary) => {
+        setItinerary(updatedItinerary);
+        setSubmit(false);
+      })
+      .catch((error) => {
+        setError(error.toString());
+      });
+  };
 
   const fetchItinerary = async (coordinates) => {
-    
-    fetch(url, {
+   return fetch(url, {
       method: "POST",
       signal: abortController.current.signal,
       headers: {
@@ -159,20 +168,22 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, e
           // Insert the starting location at the start of the itinerary
           if (parsedContent !== undefined) {
             parsedContent.unshift({
+              name: startLocation,
               city: startLocation,
               desc: "Start here",
               lat: coordinates[0].lat,
-              lng: coordinates[0].lng
+              lng: coordinates[0].lng,
             });
 
             //insert the ending location at the end of the itinerary
             parsedContent.push({
+              name: endLocation,
               city: endLocation,
-              desc: "Enjoy!",
+              desc: "You've Arrived!",
               lat: coordinates[1].lat,
-              lng: coordinates[1].lng
-          });
-
+              lng: coordinates[1].lng,
+            });
+            
             setItinerary(parsedContent);
             setMessage("Verifying location data...")
             setSubmit(false);
@@ -181,18 +192,33 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, e
           setError(err.toString());
           setSubmit(false);
         }
+        return parsedContent;
       })
       .catch((error) => {
         setError(error.toString());
         setSubmit(false);
-      })
+      });
   };
 
+
   return (
-    <div className="mainMenu">        
+    
+    <div className="mainMenu"> 
+    <div className="menuHeader">
+    {/* <img className='logo' src={logo}/> */}
+    <h1>Plan Your Next Road Trip</h1>
+    {/* <h2>AI will show you stops along the way.</h2> */}
+    </div>
+      
+     <LeafletMap 
+        itinerary={itinerary}
+        trueLatLng={trueLatLng} 
+      />
+      <Itinerary stops={itinerary} />
         <div className="locationContainer">
+          
         <section>
-          <h2>Start Location:</h2>
+          <h2>Depart</h2>
           <PlacesAutoComplete
             location={startLocation}
             setLocation={setStartLocation}
@@ -200,18 +226,15 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, e
         </section>
 
         <section>
-          <h2>End Location:</h2>
+          <h2>Arrive</h2>
           <PlacesAutoComplete
             location={endLocation}
             setLocation={setEndLocation}
           />
         </section>
-        </div>
-        
-
-        <div className="dateContainer">
+       
           <section>
-            <h2>Start Date:</h2>
+            <h2>Depart Date</h2>
             <DatePicker
             onChange={setStartDate} 
             value={startDate}
@@ -219,21 +242,19 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, e
           </section>
 
           <section>
-            <h2>End Date:</h2>
+            <h2>Arrive Date</h2>
             <DatePicker
             onChange={setEndDate} 
             value={endDate}/>
           </section>
         </div>
+        <div className="subbut">
           <button className="submitButton" onClick={handleSubmit} disabled={submit}>Submit</button>        
 
       <LoadingSpinner message={message} submit={submit}/>
       {error && <p>Error: {error}</p>}
-      <LeafletMap 
-        itinerary={itinerary}
-        trueLatLng={trueLatLng} 
-      />
-      <Itinerary stops={itinerary} />
+
+          </div>
   </div>
   );
 }
