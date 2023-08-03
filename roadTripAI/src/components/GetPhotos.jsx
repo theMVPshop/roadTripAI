@@ -31,5 +31,5 @@ export async function fetchPhotos(fetchedItinerary) {
   });
   await Promise.all(requests);
 
-  return itinerary;
+  return fetchedItinerary;
 }
