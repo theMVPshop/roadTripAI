@@ -39,7 +39,6 @@ export default function MainMenu({ submit, setSubmit, itinerary, setItinerary, e
   // This useEffect goes through the itinerary and replaces lat & lng with correct coordinates
   // ...assuming the first returned result is correct. 1% of the time, it isn't.
   useEffect(()=> {
-    console.log(itinerary)
     const fetchPromises = itinerary.map(stop => {
         return fetch(`https://geocode.maps.co/search?q=${stop.city}`)
           .then(response => response.json())
