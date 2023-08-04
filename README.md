@@ -1,4 +1,4 @@
-# Road Trip Planner
+# RoadTrip AI
 
 Plan your next road trip with AI! This React application generates a unique itinerary for your road trip, including points of interest and stops along the way, with the help of OpenAI's GPT-3.5-turbo model. This tool also verifies and enriches the data with location photos fetched from the Unsplash API.
 
