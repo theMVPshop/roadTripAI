@@ -15,7 +15,7 @@ export async function fetchPhotos(fetchedItinerary) {
       })
       .then((data) => {
         if (data && data.urls) {
-          stop.image = data.urls.thumb;
+          stop.image = data.urls.small;
         } else {
           stop.image = null;
         }
