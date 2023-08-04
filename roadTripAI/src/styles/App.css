@@ -8,6 +8,11 @@ body {
 .logo {
   max-width: 400px;
 }
+img {
+  margin: auto;
+  
+  text-align: center;
+}
 .leaflet-container {
   height: 30rem;
   width: 50rem;
