@@ -13,10 +13,13 @@ Plan your next road trip with AI! This React application generates a unique itin
 
 1. Clone the repository.
 2. cd into /roadTripAI
-2. Run `npm install` to install dependencies.
+2. Run `npm install` to install dependencies.  (If you run into an error, add the flag `--legacy-peer-deps` )
 3. Add your API keys to the .env file:
    - `VITE_SECRET_KEY` for OpenAI's GPT-3.5-turbo
    - `VITE_UNSPLASH_ACCESS_KEY` for Unsplash API
+   - If you don't have either of these API keys, you can register for them at the following URLs:  
+   **https://platform.openai.com/account/api-keys**  
+   **https://unsplash.com/documentation#creating-a-developer-account**
 4. Start the application with `npm run dev`.
 5. Open your browser and navigate to url displayed in your terminal.
 6. Input your start location, end location, and dates.
