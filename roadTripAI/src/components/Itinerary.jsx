@@ -9,15 +9,18 @@ const Itinerary = ({stops}) => {
     const [newItinerary, setNewItinerary] = useState([]);
 
     useEffect(() => {
+      if (stops.length > 2){
         setNewItinerary(stops);
+      }
+      else setNewItinerary([])
     }, [stops])
 
 
-const carouselItems = stops.map(item => (
+const carouselItems = newItinerary.map(item => (
     <div key={item.name}>
         <h3>{item.name}</h3>
         <p>{item.desc}</p>
-        <img src={item.image} alt={item.name}/>
+        <img src={item.image} alt={`A photo of ${item.name}`}/>
         
     </div>
 ));
